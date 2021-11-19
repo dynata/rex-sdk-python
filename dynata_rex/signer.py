@@ -10,6 +10,7 @@ import os
 from datetime import datetime, timedelta
 import json
 from typing import Union
+from urllib.parse import urlencode
 
 # Third Party Imports
 
@@ -22,53 +23,10 @@ DEFAULT_TTL_SECONDS = os.environ.get('DEFAULT_TTL_SECONDS', 10)
 DEFAULT_SIGNING_STRING = os.environ.get('DEFAULT_SIGNING_STRING', '')
 
 
-def create_expiration_date(ttl: int) -> str:
-    """
-    Create a formatted date string from now + ttl in seconds
-    - expected format:         "2021-03-30T14:17:29.208Z"
-    - python isoformat outputs '2021-03-30T14:17:29.208292', so we have to
-      strip the last 3, and append the Z.
-    :ttl : int - seconds
-    """
-    return (datetime.utcnow() + timedelta(seconds=ttl)) \
-        .isoformat(timespec="milliseconds") + "Z"
-
-
-def sign(access_key: str,
-         secret_key: str,
-         ttl: int,
-         signing_string: str = '') -> (str, str):
-    """
-    Sign 3 times, first with expiration, second with key, final with secret
-
-    :key    : str - liam access key
-    :secret : str - liam secret key
-    :ttl    : int - ttl in seconds for life of signature
-    :signing_string: str - optional string to sign with
-
-    ->tuple (signature: str, expiration_date: str)
-    """
-    expiration_date_str = create_expiration_date(ttl)
-    first = digest(expiration_date_str, signing_string)
-    second = digest(access_key, first)
-    final = digest(secret_key, second)
-    return final, expiration_date_str
-
-
-def digest(signing_key: str, message: str, encoding='utf-8') -> str:
-    """
-    Create a digest from signing_key & message
-    """
-    _hmac = hmac.new(
-        key=bytes(signing_key, encoding=encoding),
-        msg=bytes(message, encoding=encoding),
-        digestmod=hashlib.sha256
-    )
-    return _hmac.hexdigest()
-
-
 class Signer:
-
+    """
+    Create signatures for requests to the Rex Registry API and Gateway
+    """
     def __init__(self,
                  access_key: str,
                  secret_key: str,
@@ -79,24 +37,119 @@ class Signer:
         self.signing_string = signing_string
         self.ttl = ttl
 
-    def sign(self) -> str:
-        return sign(self.access_key,
-                    self.secret_key,
-                    self.ttl,
-                    self.signing_string)
+    @classmethod
+    def digest(cls, signing_key: str, message: str, encoding='utf-8') -> str:
+        """
+        Create a digest from signing_key & message
+        """
+        _hmac = hmac.new(
+            key=bytes(signing_key, encoding=encoding),
+            msg=bytes(message, encoding=encoding),
+            digestmod=hashlib.sha256
+        )
+        return _hmac.hexdigest()
+
+    @classmethod
+    def create_expiration_date(cls, ttl: int) -> str:
+        """
+        Create a formatted date string from now + ttl in seconds
+        - expected format:         "2021-03-30T14:17:29.208Z"
+        - python isoformat outputs '2021-03-30T14:17:29.208292', so we have to
+        strip the last 3, and append the Z.
+        :ttl : int - seconds
+        """
+        return (datetime.utcnow() + timedelta(seconds=ttl)) \
+            .isoformat(timespec="milliseconds") + "Z"
+
+    @classmethod
+    def sign_from_ttl(cls,
+                      access_key,
+                      secret_key,
+                      ttl,
+                      signing_string: str = '') -> (str, str):
+        expiration_date_str = cls.create_expiration_date(ttl)
+        first = cls.digest(expiration_date_str, signing_string)
+        second = cls.digest(access_key, first)
+        final = cls.digest(secret_key, second)
+        return final, expiration_date_str
+
+    @classmethod
+    def sign_from_expiration_date(cls,
+                                  access_key,
+                                  secret_key,
+                                  expiration_date_str,
+                                  signing_string: str = Union[str, None]
+                                  ) -> (str, str):
+        first = cls.digest(expiration_date_str, signing_string)
+        second = cls.digest(access_key, first)
+        final = cls.digest(secret_key, second)
+        return final, expiration_date_str
+
+    def _create_query_params_signing_string(self, parameters: dict) -> str:
+        """Create a signing string for use in Gateway from query parameters
+        """
+        if 'signing_string' in parameters:
+            del parameters['signing_string']
+        if 'signature' in parameters:
+            del parameters['signature']
+        sorted_params = sorted(parameters.items())
+        encoded_params = urlencode(sorted_params)
+        return hashlib.sha256(encoded_params.encode('utf-8')).hexdigest()
+
+    def sign_rex_request(self,
+                         url: str,
+                         method: str,
+                         ttl: Union[int, None] = None) -> str:
+        if ttl is None:
+            ttl = self.ttl
+        expiration_date_str = self.create_expiration_date(ttl)
+        signing_string = self.signing_string
+        signature, _ = self.sign_from_expiration_date(self.access_key,
+                                                      self.secret_key,
+                                                      expiration_date_str,
+                                                      signing_string)
+        return signature
+
+    def sign_query_parameters(self,
+                              parameters: dict,
+                              ttl: Union[int, None] = None) -> str:
+        if ttl is None:
+            ttl = self.ttl
+        expiration_date_str = self.create_expiration_date(ttl)
+        parameters['access_key'] = self.access_key
+        parameters['expiration'] = expiration_date_str
+        signing_string = self._create_query_params_signing_string(parameters)
+        parameters['signing_string'] = signing_string
+        signature, _ = self.sign_from_expiration_date(self.access_key,
+                                                      self.secret_key,
+                                                      expiration_date_str,
+                                                      signing_string)
+        parameters['signature'] = signature
+
+        # Remove signing string for smrg
+        del parameters['signing_string']
+
+        return urlencode(parameters)
 
 
 class RexRequest:
     """Wrapper for http calls to include our signature"""
 
-    def __init__(self, access_key, secret_key):
+    def __init__(self, access_key, secret_key, ttl=None):
+        if ttl is None:
+            ttl = int(os.environ.get('REX_SIGNATURE_TTL', '10'))
+        self.ttl = ttl
         self.access_key = access_key
         self.secret_key = secret_key
         self.signer = Signer(access_key, secret_key)
         self.session = make_session()
 
     def _signature(self):
-        return self.signer.sign()
+        return self.signer.sign_from_ttl(
+            self.access_key,
+            self.secret_key,
+            self.ttl
+        )
 
     def _create_auth_headers(self, additional_headers={}):
         signature, expiration = self._signature()
