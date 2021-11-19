@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+.idea*
+.env*
+!.env.example
+*.pid
+*.egg*  
+dist/
+build/
+.DS_Store
