@@ -7,8 +7,7 @@ Description: API interaction for smor
 """
 # Python Imports
 import json
-from typing import List, Union
-import os
+from typing import List
 
 # Third Party Imports
 import pydantic
@@ -28,7 +27,7 @@ class RegistryAPI:
                  base_url: str,
                  shard_count: int = 1,
                  current_shard: int = 1,
-                 signature_ttl: Union[int, None] = None):
+                 signature_ttl: int = 10):
         """
         @access_key: liam access key for REX
         @secret_key: liam secret key for REX
@@ -37,9 +36,8 @@ class RegistryAPI:
         # Optional
         @shard_count  : number of total shards consuming Opportunity Registry
         @current_shard: curent shard
+        @signature_ttl: time to live for signature in seconds
         """
-        if signature_ttl is None:
-            signature_ttl = int(os.environ.get('REX_SIGNATURE_TTL', '10'))
         self.signature_ttl = signature_ttl
         self.make_request = RexRequest(access_key,
                                        secret_key,
@@ -99,6 +97,7 @@ class RegistryAPI:
         return models.Opportunity(**opportunity)
 
     def list_project_opportunities(self, project_id: int) -> List[int]:
+        """List related opportunities from a project id"""
         endpoint = f"{self.base_url}/list-project-opportunities"
         data = {"project_id": project_id}
         return self.make_request.post(endpoint, data)
@@ -117,6 +116,7 @@ class RegistryAPI:
         return res
 
     def download_collection(self, collection_id: int) -> list:
+        """Download targeting from a collection cell"""
         endpoint = f"{self.base_url}/download-collection"
         data = {"id": collection_id}
         return self.make_request.post(endpoint, data)

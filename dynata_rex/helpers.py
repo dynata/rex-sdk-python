@@ -63,6 +63,7 @@ class TimeoutHTTPAdapter(HTTPAdapter):
 
 
 def make_session(request_timeout=DEFAULT_TIMEOUT):
+    """Make a session and mount the TimeoutHTTPAdapter"""
     session = requests.Session()
     adapter = TimeoutHTTPAdapter(request_timeout=request_timeout)
     session.mount('https://', adapter)

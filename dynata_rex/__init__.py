@@ -6,7 +6,6 @@ from .exceptions import (
     HttpTimeoutException,
     InvalidCredentialsException
 )
-
 __all__ = [
     'RegistryAPI',
     'RexClientException',
