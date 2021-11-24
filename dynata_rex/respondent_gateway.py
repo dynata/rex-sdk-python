@@ -6,7 +6,7 @@ Author(s): Grant W
 Description: Respondent Gateway interactions
 """
 # Python Import
-from urllib.parse import urlparse, parse_qsl
+from urllib.parse import urlparse, parse_qsl, unquote
 from typing import Union
 from copy import copy
 
@@ -14,6 +14,7 @@ from copy import copy
 
 # Local Imports
 from .signer import Signer
+from .exceptions import SignatureExpiredException, SignatureInvalidException
 
 
 class RespondentGateway:
@@ -37,9 +38,16 @@ class RespondentGateway:
         self.default_ttl = default_ttl
         self.signer = Signer(access_key, secret_key, default_ttl=default_ttl)
 
-    def sign_url(self, url, ttl: Union[int, None] = None) -> str:
+    def sign_url(self,
+                 url,
+                 ttl: Union[int, None] = None,
+                 url_quoting: bool = False) -> str:
         """
         Sign a URL with the given access and secret keys
+
+        @url: URL to sign
+        @ttl: time to live for signature in seconds
+        @url_quoting: whether to URL quote the returned URL
         """
         if not ttl:
             ttl = self.default_ttl
@@ -47,8 +55,10 @@ class RespondentGateway:
         query_parameters = dict(parse_qsl(parsed.query))
         signed_params = self.signer.sign_query_parameters_from_ttl(
             query_parameters, ttl=ttl)
-        updated = parsed._replace(query=signed_params)
-        return updated.geturl()
+        updated = parsed._replace(query=signed_params).geturl()
+        if url_quoting:
+            return updated
+        return unquote(updated)
 
     def verify_query_parameters(self,
                                 query_parameters: dict,
@@ -71,12 +81,16 @@ class RespondentGateway:
         if secret_key is None:
             secret_key = self.secret_key
         expiration_date_str = parameters.pop('expiration')
+        if self.signer.is_expired(expiration_date_str):
+            raise SignatureExpiredException
         original_signature = parameters.pop('signature')
         signed = self.signer.sign_query_params_from_expiration_date(
             parameters, expiration_date_str, access_key, secret_key,
             as_dict=True
         )
-        return original_signature == signed['signature']
+        if original_signature != signed['signature']:
+            raise SignatureInvalidException
+        return True
 
     def verify_url(self,
                    url,
@@ -91,6 +105,11 @@ class RespondentGateway:
             secret_key = self.secret_key
         parsed = urlparse(url)
         query_parameters = dict(parse_qsl(parsed.query))
-        return self.verify_query_parameters(query_parameters,
-                                            access_key=access_key,
-                                            secret_key=secret_key)
+        try:
+            return self.verify_query_parameters(query_parameters,
+                                                access_key=access_key,
+                                                secret_key=secret_key)
+        except (KeyError,
+                SignatureExpiredException,
+                SignatureInvalidException):
+            return False

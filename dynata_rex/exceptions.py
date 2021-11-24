@@ -36,3 +36,11 @@ class HttpTimeoutException(RexServiceException):
 
 class InvalidCredentialsException(RexServiceException):
     pass
+
+
+class SignatureExpiredException(RexClientException):
+    pass
+
+
+class SignatureInvalidException(RexClientException):
+    pass

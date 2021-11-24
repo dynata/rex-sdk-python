@@ -33,6 +33,13 @@ class Signer:
         self.signing_string = signing_string
         self.default_ttl = default_ttl
 
+    def is_expired(self, expiration_date_str: str) -> bool:
+        """Check if the expiration date is in the past
+        """
+        expiration_date = datetime.strptime(expiration_date_str,
+                                            '%Y-%m-%dT%H:%M:%S.%fZ')
+        return expiration_date < datetime.utcnow()
+
     @staticmethod
     def digest(signing_key: str, message: str, encoding='utf-8') -> str:
         """
