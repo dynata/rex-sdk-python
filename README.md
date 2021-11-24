@@ -70,7 +70,7 @@ signed_url = gateway.sign_url(url, url_quoting=True)
 ##### Valid URL
 ```
 # Termination Endlink
-end_url = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456disposition=2&status=1&access_key=rex_access_key&expiration=2021-11-24T16:50:53.899Z&signature=15da726b7802bda810c059ee1604f8fd1237a0618c29185c6b16f09e14242278"
+end_url = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456&disposition=2&status=1&access_key=rex_access_key&expiration=2021-11-24T19:23:23.439Z&signature=d351ff102b3ae6252d47fd54b859ecaf38c2701f214c233848bbdf64c0bc7fe1"
 
 gateway.verify_url(end_url)
 
@@ -78,7 +78,7 @@ gateway.verify_url(end_url)
 ```
 ##### Missing Signature
 ```
-missing_signature = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456disposition=2&status=1&access_key=rex_access_key&expiration=2021-11-24T16:50:53.899Z"
+missing_signature = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456&disposition=2&status=1&access_key=rex_access_key&expiration=2021-11-24T19:23:23.439Z"
 
 gateway.verify_url(missing_signature)
 
@@ -88,10 +88,42 @@ gateway.verify_url(missing_signature)
 ```
 # Disposition changed to 1 (from 2) and status to 0 (from 1)
 
-altered_parameters = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456disposition=1&status=0&access_key=rex_access_key&expiration=2021-11-24T16:50:53.899Z&signature=15da726b7802bda810c059ee1604f8fd1237a0618c29185c6b16f09e14242278"
+altered_parameters = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456&disposition=1&status=0&access_key=rex_access_key&expiration=2021-11-24T19:23:23.439Z&signature=d351ff102b3ae6252d47fd54b859ecaf38c2701f214c233848bbdf64c0bc7fe1"
 
 gateway.verify_url(altered_parameters)
 
 # False
 ```
+##### Get Disposition of a Survey from Endlink
+```
+termination = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456&disposition=2&status=1&access_key=rex_access_key&expiration=2021-11-24T19:23:23.439Z&signature=d351ff102b3ae6252d47fd54b859ecaf38c2701f214c233848bbdf64c0bc7fe1"
 
+disposition = gateway.get_respondent_disposition(termination)
+
+# <GatewayDispositionsEnum.TERMINATION: 2>
+
+disposition.name
+
+# 'TERMINATION'
+
+disposition.value
+
+# 2
+```
+
+##### Get Disposition + Status of a Survey from Endlink
+```
+termination = "https://respondent.fake.rex.dynata.com/end?ctx=XXXX&transaction_id=123456&disposition=2&status=1&access_key=rex_access_key&expiration=2021-11-24T19:23:23.439Z&signature=d351ff102b3ae6252d47fd54b859ecaf38c2701f214c233848bbdf64c0bc7fe1"
+
+status = gateway.get_respondent_status(termination)
+
+#<GatewayStatusEnum.TERMINATION_DYNATA: (<GatewayDispositionsEnum.TERMINATION: 2>, 1)>
+
+status.name
+
+# 'TERMINATION_DYNATA'
+
+status.value
+
+# (<GatewayDispositionsEnum.TERMINATION: 2>, 1)
+```

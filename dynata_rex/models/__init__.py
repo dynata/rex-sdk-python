@@ -22,6 +22,12 @@ from .opportunity_registry import (
     Opportunity
 )
 
+from .respondent_gateway import (
+    GatewayGenderEnum,
+    GatewayDispositionsEnum,
+    GatewayStatusEnum
+)
+
 
 __all__ = [
     'HashableModel',
@@ -40,5 +46,8 @@ __all__ = [
     'Links',
     'Quota',
     'Filter',
-    'Opportunity'
+    'Opportunity',
+    'GatewayGenderEnum',
+    'GatewayDispositionsEnum',
+    'GatewayStatusEnum'
 ]

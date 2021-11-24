@@ -13,6 +13,7 @@ from copy import copy
 # Third Party Imports
 
 # Local Imports
+from dynata_rex.models import GatewayDispositionsEnum, GatewayStatusEnum
 from .signer import Signer
 from .exceptions import SignatureExpiredException, SignatureInvalidException
 
@@ -113,3 +114,32 @@ class RespondentGateway:
                 SignatureExpiredException,
                 SignatureInvalidException):
             return False
+
+    def get_respondent_disposition(
+            self, url) -> Union[GatewayDispositionsEnum, None]:
+        """
+        Get the disposition of a respondent from a URL
+        """
+        parsed = urlparse(url)
+        query_parameters = dict(parse_qsl(parsed.query))
+        try:
+            disposition = int(query_parameters['disposition'])
+            return GatewayDispositionsEnum(disposition)
+        except KeyError:
+            return None
+
+    def get_respondent_status(
+            self, url) -> Union[GatewayStatusEnum, None]:
+        """
+        Get the status of a respondent from a URL
+        """
+        parsed = urlparse(url)
+        query_parameters = dict(parse_qsl(parsed.query))
+        disposition = self.get_respondent_disposition(url)
+        if not disposition:
+            return None
+        try:
+            status = int(query_parameters['status'])
+            return GatewayStatusEnum((disposition, status))
+        except KeyError:
+            return None
