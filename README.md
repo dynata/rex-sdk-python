@@ -9,9 +9,6 @@ Package for building and interacting with the Dynata Respondent Exchange (REX)
 &nbsp;  
 
 ### *__Opportunity Registry__*
-
-&nbsp;  
-
 ### Instantiate a Registry Client
 ```
 from dynata_rex import RegistryAPI
@@ -50,8 +47,6 @@ data = registry.download_collection(cell.collection_id)
 &nbsp;  
 
 ### *__Respondent Gateway__*
-
-&nbsp;  
 
 ### Instantiate a RespondentGateway Client
 ```
