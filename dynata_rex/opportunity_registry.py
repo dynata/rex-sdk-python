@@ -41,7 +41,7 @@ class RegistryAPI:
         self.signature_ttl = signature_ttl
         self.make_request = RexRequest(access_key,
                                        secret_key,
-                                       ttl=signature_ttl)
+                                       default_ttl=signature_ttl)
         self.base_url = self._format_base_url(base_url)
 
         if current_shard > shard_count:

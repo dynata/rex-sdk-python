@@ -6,7 +6,7 @@ Author(s): Grant W
 Description: Respondent Gateway interactions
 """
 # Python Import
-from urllib.parse import urlparse, parse_qsl, unquote
+from urllib.parse import urlparse, parse_qsl, unquote, urlencode
 from typing import Union
 from copy import copy
 
@@ -38,6 +38,37 @@ class RespondentGateway:
         self.secret_key = secret_key
         self.default_ttl = default_ttl
         self.signer = Signer(access_key, secret_key, default_ttl=default_ttl)
+
+    def create_respondent_url(self,
+                              url: str,
+                              birth_date: str,
+                              gender: str,
+                              postal_code: str,
+                              respondent_id: str,
+                              ttl: Union[int, None] = None,
+                              url_quoting: bool = False) -> str:
+        """
+        Creates a url from the url of an opportunity + the required
+        parameters for entry into the respondent gateway.
+
+        @url: live/test url of an opportunity
+        @birth_date: birth date in ISO8601 (YYYY-MM-DD) format
+        @gender: 'male' / 'female'
+        @postal: postal code as string
+        @respondent_id : unique identifier for the respondent
+        """
+        parsed = urlparse(url)
+        base_params = dict(parse_qsl(parsed.query))
+        required_params = {
+            'birth_date': birth_date,
+            'gender': gender,
+            'postal_code': postal_code,
+            'respondent_id': respondent_id
+        }
+        final_params = dict(base_params, **required_params)
+        updated_query = urlencode(final_params, doseq=True)
+        parsed = parsed._replace(query=updated_query)
+        return self.sign_url(parsed.geturl(), ttl=ttl, url_quoting=url_quoting)
 
     def sign_url(self,
                  url,
