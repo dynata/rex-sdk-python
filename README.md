@@ -141,3 +141,50 @@ status.value
 
 # (<GatewayDispositionsEnum.TERMINATION: 2>, 1)
 ```
+
+##### Create a context
+```
+context_id = 'super-unique-ctx-id'
+data = {
+    'ctx': 'parent-context-id',           # From survey link 'ctx' parameter
+    'gender': 'male',
+    'birth_data': '1999-09-09',
+    'postal_code': '90210'
+}
+gateway.create_context(context_id, data)
+
+# 'super-unique-ctx-id'
+```
+
+##### Retrieve a context
+```
+gw.get_context('super-unique-ctx-id')
+
+# {
+#    'id': 'super-unique-ctx-id', 
+#    'items': {
+#        'ctx': 'parent-context-id',
+#        'gender': 'male',
+#        'birth_data': '1999-09-09',
+#        'postal_code': '90210'
+#     }
+# }
+```
+
+##### Expire a context
+```
+gw.expire_context('super-unique-ctx-id')
+
+# {
+#    'id': 'super-unique-ctx-id', 
+#    'items': {
+#        'ctx': 'parent-context-id',
+#        'gender': 'male',
+#        'birth_data': '1999-09-09',
+#        'postal_code': '90210'
+#     },
+#     'expiration': '2021-11-30T16:10:44Z'
+# }
+```
+
+
