@@ -11,8 +11,8 @@ Package for building and interacting with the Dynata Respondent Exchange (REX)
 ### *__Opportunity Registry__*
 ### Instantiate a Registry Client
 ```
-from dynata_rex import RegistryAPI
-registry = RegistryAPI('rex_access_key', 'rex_secret_key', 'registry_base_url')
+from dynata_rex import OpportunityRegistry
+registry = OpportunityRegistry('rex_access_key', 'rex_secret_key')
 ```
 ### List opportunities from the registry
 ```

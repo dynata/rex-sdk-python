@@ -19,7 +19,7 @@ from .logs import logger
 from .exceptions import InvalidShardException
 
 
-class RegistryAPI:
+class OpportunityRegistry:
 
     _BASE_URL = 'https://registry.rex.dynata.com'
 

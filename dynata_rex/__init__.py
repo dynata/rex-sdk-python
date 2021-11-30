@@ -10,7 +10,7 @@ Description: Expose the main classes of the package.
 # Third Party Imports
 
 # Local Imports
-from .opportunity_registry import RegistryAPI
+from .opportunity_registry import OpportunityRegistry
 from .respondent_gateway import RespondentGateway
 from .exceptions import (
     RexClientException,
@@ -22,7 +22,7 @@ from .exceptions import (
 
 __all__ = [
     'RespondentGateway',
-    'RegistryAPI',
+    'OpportunityRegistry',
     'RexClientException',
     'RexServiceException',
     'InvalidShardException',
