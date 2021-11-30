@@ -99,19 +99,11 @@ class Signer:
         encoded_params = urlencode(sorted_params)
         return hashlib.sha256(encoded_params.encode('utf-8')).hexdigest()
 
-    def sign_rex_request(self,
-                         url: str,
-                         method: str,
-                         ttl: Union[int, None] = None) -> str:
-        if ttl is None:
-            ttl = self.default_ttl
-        expiration_date_str = self.create_expiration_date(ttl)
-        signing_string = self.signing_string
-        signature, _ = self.sign_from_expiration_date(self.access_key,
-                                                      self.secret_key,
-                                                      expiration_date_str,
-                                                      signing_string)
-        return signature
+    def _create_request_body_signing_string(self, request_body: str) -> str:
+        """SHA256 digest of the request body as a hexidecimal string
+        in lowercase
+        """
+        return hashlib.sha256(request_body.encode('utf-8')).hexdigest()
 
     def sign_query_params_from_expiration_date(self,
                                                parameters: dict,
@@ -159,17 +151,26 @@ class RexRequest:
         self.signer = Signer(access_key, secret_key)
         self.session = make_session()
 
-    def _signature(self, ttl: int = None) -> str:
+    def _signature(self, ttl: int = None, signing_string: str = None) -> str:
         if ttl is None:
             ttl = self.default_ttl
         return self.signer.sign_from_ttl(
             self.access_key,
             self.secret_key,
-            ttl
+            ttl,
+            signing_string=signing_string
         )
 
-    def _create_auth_headers(self, additional_headers={}):
-        signature, expiration = self._signature()
+    def _create_auth_headers(self, url, additional_headers={}, body=''):
+        signing_string = self.signer._create_request_body_signing_string(body)
+
+        # TODO: Hack alert: Registry doesn't like the sha256 body signing
+        # string yet
+        if 'https://registry' in url:
+            signing_string = ''
+        # END Hack alert
+
+        signature, expiration = self._signature(signing_string=signing_string)
         base = {
             'dynata-expiration': expiration,
             'dynata-access-key': self.access_key,
@@ -179,7 +180,7 @@ class RexRequest:
 
     def dispatch(self,
                  url,
-                 data=None,
+                 data='',
                  method='GET') -> Union[dict, str]:
 
         additional_headers = {}
@@ -187,10 +188,10 @@ class RexRequest:
             additional_headers = {'Content-type': 'application/json'}
             data = json.dumps(data)
 
-        headers = self._create_auth_headers(additional_headers)
+        headers = self._create_auth_headers(url, additional_headers, body=data)
 
         if not hasattr(self.session, method.lower()):
-            raise Exception('Invalid http method provided.')
+            raise AttributeError('Invalid http method provided.')
 
         method = getattr(self.session, method.lower())
 
@@ -201,7 +202,7 @@ class RexRequest:
             if data:
                 logger.warning(data)
             logger.warning(res.__dict__)
-            raise RexServiceException(res.content)
+            raise RexServiceException(res.content.decode('utf-8'))
         try:
             return res.json()
         except json.decoder.JSONDecodeError as e:

@@ -21,38 +21,35 @@ from .exceptions import InvalidShardException
 
 class RegistryAPI:
 
+    _BASE_URL = 'https://registry.rex.dynata.com'
+
     def __init__(self,
                  access_key: str,
                  secret_key: str,
-                 base_url: str,
+                 base_url: str = _BASE_URL,
+                 default_ttl: int = 10,
                  shard_count: int = 1,
-                 current_shard: int = 1,
-                 signature_ttl: int = 10):
+                 current_shard: int = 1):
         """
         @access_key: liam access key for REX
         @secret_key: liam secret key for REX
-        @base_url  : url of Opportunity Registry
 
         # Optional
+        @base_url  : url of Opportunity Registry
         @shard_count  : number of total shards consuming Opportunity Registry
         @current_shard: curent shard
-        @signature_ttl: time to live for signature in seconds
+        @default_ttl: time to live for signature in seconds
         """
-        self.signature_ttl = signature_ttl
+        self.default_ttl = default_ttl
         self.make_request = RexRequest(access_key,
                                        secret_key,
-                                       default_ttl=signature_ttl)
-        self.base_url = self._format_base_url(base_url)
+                                       default_ttl=default_ttl)
+        self.base_url = base_url
 
         if current_shard > shard_count:
             raise InvalidShardException
         self.shard_count = shard_count
         self.current_shard = current_shard
-
-    def _format_base_url(self, base_url: str) -> str:
-        if base_url.startswith('http'):
-            return base_url
-        return f'https://{base_url}'
 
     def _get_opportunity(self, opportunity_id: int) -> dict:
         """Raw get opportunity"""

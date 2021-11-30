@@ -14,7 +14,7 @@ from copy import copy
 
 # Local Imports
 from dynata_rex.models import GatewayDispositionsEnum, GatewayStatusEnum
-from .signer import Signer
+from .signer import Signer, RexRequest
 from .exceptions import SignatureExpiredException, SignatureInvalidException
 
 
@@ -23,20 +23,31 @@ class RespondentGateway:
     Respondent Gateway interactions
     """
 
+    _BASE_URL = 'https://respondent.rex.dynata.com'
+
     def __init__(self,
                  access_key: str,
                  secret_key: str,
+                 base_url: str = _BASE_URL,
                  default_ttl: int = 10):
         """
         @access_key: liam access key for REX
         @secret_key: liam secret key for REX
 
         # Optional
+        @base_url: url of Gateway
         @ttl: time to live for signature in seconds
         """
         self.access_key = access_key
         self.secret_key = secret_key
         self.default_ttl = default_ttl
+        self.base_url = base_url
+
+        # MR for API requests
+        self.make_request = RexRequest(access_key,
+                                       secret_key,
+                                       default_ttl=default_ttl)
+        # Signer for signing/verifying URLs
         self.signer = Signer(access_key, secret_key, default_ttl=default_ttl)
 
     def create_respondent_url(self,
@@ -130,6 +141,11 @@ class RespondentGateway:
                    secret_key: str = None) -> bool:
         """
         Verify a URL's signature matches for the given access and secret keys
+        @url: URL to verify
+
+        Optional
+        @access_key: liam access key for signing
+        @secret_key: liam secret key for signing
         """
         if access_key is None:
             access_key = self.access_key
@@ -150,6 +166,8 @@ class RespondentGateway:
             self, url) -> Union[GatewayDispositionsEnum, None]:
         """
         Get the disposition of a respondent from a URL
+
+        @url: URL to get disposition from
         """
         parsed = urlparse(url)
         query_parameters = dict(parse_qsl(parsed.query))
@@ -163,6 +181,8 @@ class RespondentGateway:
             self, url) -> Union[GatewayStatusEnum, None]:
         """
         Get the status of a respondent from a URL
+
+        @url: URL to get status from
         """
         parsed = urlparse(url)
         query_parameters = dict(parse_qsl(parsed.query))
@@ -174,3 +194,45 @@ class RespondentGateway:
             return GatewayStatusEnum((disposition, status))
         except KeyError:
             return None
+
+    def create_context(self, context_id: str, context_data: dict) -> int:
+        """
+        Create a context with the given context_id and context_data
+
+        @context_id: unique identifier for the context
+        @context_data: dictionary of context data ie:
+            {
+                "ctx": "a987dsglh34t435jkhsdg98u",
+                "gender": "male",
+                "postal_code": "60081",
+                "birth_date": "1959-10-05",
+                "country": "US"
+            }
+        """
+        endpoint = f"{self.base_url}/create-context"
+        data = {
+            "id": context_id,
+            "items": context_data
+        }
+        response = self.make_request.post(endpoint, data)
+        return response['id']
+
+    def expire_context(self, context_id: str) -> None:
+        """
+        Expire a context with the given context_id and account_id
+
+        @context_id: identifier for the context
+        """
+        endpoint = f"{self.base_url}/expire-context"
+        data = {"id": context_id}
+        res = self.make_request.post(endpoint, data)
+        return res if res else None
+
+    def get_context(self, context_id: int) -> dict:
+        """Get specific opportunity from SMOR
+
+        @context_id: identifier for the context
+        """
+        endpoint = f"{self.base_url}/get-context"
+        data = {"id": context_id}
+        return self.make_request.post(endpoint, data)
