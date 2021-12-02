@@ -63,9 +63,31 @@ signed_link = gateway.create_respondent_url(url,
                                             'male',
                                             '90210',
                                             'very-unique-respondent-id',
+                                            
                                             ttl=60)
 # https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en&birth_date=1990-01-01&gender=male&postal_code=90210&respondent_id=very-unique-respondent-id&access_key=rex_access_key&expiration=2021-11-29T15:35:12.993Z&signature=4353e8c4ca8f8fb75530214ac78139b55ca3f090438c639476b8584afe1396e6
 ```
+
+### Add additional query parameters to a link that will be present on return from survey
+```
+url = 'https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en'
+
+custom_params = {
+    'custom_parameter': 'custom_value',
+    'another_custom_parameter': 'another_custom_value'
+}
+
+signed_link = gateway.create_respondent_url(url,
+                                            '1990-01-01',
+                                            'male',
+                                            '90210',
+                                            'very-unique-respondent-id',
+                                            additional_params=custom_params,
+                                            ttl=60)
+
+# https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en&custom_parameter=custom_value&another_custom_parameter=another_custom_value&birth_date=1990-01-01&gender=male&postal_code=90210&respondent_id=very-unique-respondent-id&access_key=rex_access_key&expiration=2021-12-02T13:48:55.759Z&signature=cf443326b73fb8af14c590e18d79a970fc3f73327c2d140c324ee1ce3020d064
+```
+
 
 ### Sign an inbound /start link with your credentials
 ```

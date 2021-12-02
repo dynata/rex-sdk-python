@@ -56,6 +56,7 @@ class RespondentGateway:
                               gender: str,
                               postal_code: str,
                               respondent_id: str,
+                              additional_params: dict = None,
                               ttl: Union[int, None] = None,
                               url_quoting: bool = False) -> str:
         """
@@ -67,9 +68,16 @@ class RespondentGateway:
         @gender: 'male' / 'female'
         @postal: postal code as string
         @respondent_id : unique identifier for the respondent
+
+        @additional_params: additional parameters that will be included
+            on the return back from the survey
+        @ttl: time to live for signature in seconds
+        @url_quoting: whether to URL quote the returned URL
         """
         parsed = urlparse(url)
         base_params = dict(parse_qsl(parsed.query))
+        if additional_params:
+            base_params = dict(base_params, **additional_params)
         required_params = {
             'birth_date': birth_date,
             'gender': gender,
