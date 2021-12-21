@@ -147,15 +147,10 @@ class RexRequest:
     def __init__(self,
                  access_key,
                  secret_key,
-                 default_ttl: int = 10,
-                 hash_registry: bool = False):
+                 default_ttl: int = 10):
         self.default_ttl = default_ttl
         self.access_key = access_key
         self.secret_key = secret_key
-        # TODO: Hack Alert: Including this for compatability
-        # Once completed, all refs to the registry hack should be removed
-        self.hash_registry = hash_registry
-        # END TODO: Hack Alert
         self.signer = Signer(access_key, secret_key)
         self.session = make_session()
 
@@ -175,17 +170,12 @@ class RexRequest:
                              body=''):
         signing_string = self.signer._create_request_body_signing_string(body)
 
-        # TODO: Hack alert: Registry doesn't like the sha256 body signing
-        # string yet
-        if self.hash_registry is False and 'https://registry' in url:
-            signing_string = ''
-        # END Hack alert
-
         signature, expiration = self._signature(signing_string=signing_string)
         base = {
             'dynata-expiration': expiration,
             'dynata-access-key': self.access_key,
-            'dynata-signature': signature
+            'dynata-signature': signature,
+            'dynata-signing-string': signing_string
         }
         return dict(additional_headers, **base)
 

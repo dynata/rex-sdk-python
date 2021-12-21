@@ -27,9 +27,6 @@ class OpportunityRegistry:
                  access_key: str,
                  secret_key: str,
                  base_url: str = _BASE_URL,
-                 # TODO: Hack Alert Remove Hash Registry
-                 hash_registry: bool = False,
-                 # END TODO: Hack Alert
                  default_ttl: int = 10,
                  shard_count: int = 1,
                  current_shard: int = 1):
@@ -46,8 +43,7 @@ class OpportunityRegistry:
         self.default_ttl = default_ttl
         self.make_request = RexRequest(access_key,
                                        secret_key,
-                                       default_ttl=default_ttl,
-                                       hash_registry=hash_registry)
+                                       default_ttl=default_ttl)
         self.base_url = base_url
 
         if current_shard > shard_count:
