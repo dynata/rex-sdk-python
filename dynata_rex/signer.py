@@ -144,10 +144,18 @@ class Signer:
 class RexRequest:
     """Wrapper for http calls to include our signature"""
 
-    def __init__(self, access_key, secret_key, default_ttl: int = 10):
+    def __init__(self,
+                 access_key,
+                 secret_key,
+                 default_ttl: int = 10,
+                 hash_registry: bool = False):
         self.default_ttl = default_ttl
         self.access_key = access_key
         self.secret_key = secret_key
+        # TODO: Hack Alert: Including this for compatability
+        # Once completed, all refs to the registry hack should be removed
+        self.hash_registry = hash_registry
+        # END TODO: Hack Alert
         self.signer = Signer(access_key, secret_key)
         self.session = make_session()
 
@@ -161,12 +169,15 @@ class RexRequest:
             signing_string=signing_string
         )
 
-    def _create_auth_headers(self, url, additional_headers={}, body=''):
+    def _create_auth_headers(self,
+                             url,
+                             additional_headers={},
+                             body=''):
         signing_string = self.signer._create_request_body_signing_string(body)
 
         # TODO: Hack alert: Registry doesn't like the sha256 body signing
         # string yet
-        if 'https://registry' in url:
+        if self.hash_registry is False and 'https://registry' in url:
             signing_string = ''
         # END Hack alert
 
@@ -188,7 +199,9 @@ class RexRequest:
             additional_headers = {'Content-type': 'application/json'}
             data = json.dumps(data)
 
-        headers = self._create_auth_headers(url, additional_headers, body=data)
+        headers = self._create_auth_headers(url,
+                                            additional_headers,
+                                            body=data)
 
         if not hasattr(self.session, method.lower()):
             raise AttributeError('Invalid http method provided.')
