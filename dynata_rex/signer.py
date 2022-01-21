@@ -115,7 +115,7 @@ class Signer:
             access_key = self.access_key
         if secret_key is None:
             secret_key = self.secret_key
-        parameters['access_key'] = self.access_key
+        parameters['access_key'] = access_key
         parameters['expiration'] = expiration_date_str
         signing_string = self._create_query_params_signing_string(parameters)
         parameters['signing_string'] = signing_string
