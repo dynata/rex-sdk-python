@@ -183,7 +183,7 @@ gateway.create_context(context_id, data)
 gw.get_context('super-unique-ctx-id')
 
 # {
-#    'id': 'super-unique-ctx-id', 
+#    'id': 'super-unique-ctx-id',
 #    'items': {
 #        'ctx': 'parent-context-id',
 #        'gender': 'male',
@@ -198,7 +198,7 @@ gw.get_context('super-unique-ctx-id')
 gw.expire_context('super-unique-ctx-id')
 
 # {
-#    'id': 'super-unique-ctx-id', 
+#    'id': 'super-unique-ctx-id',
 #    'items': {
 #        'ctx': 'parent-context-id',
 #        'gender': 'male',
