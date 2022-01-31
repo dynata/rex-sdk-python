@@ -44,12 +44,19 @@ class OpportunityRegistry:
         self.make_request = RexRequest(access_key,
                                        secret_key,
                                        default_ttl=default_ttl)
-        self.base_url = base_url
+        self.base_url = self._format_base_url(base_url)
 
         if current_shard > shard_count:
             raise InvalidShardException
         self.shard_count = shard_count
         self.current_shard = current_shard
+
+    def _format_base_url(self, url):
+        """Make sure our URL starts with http, and if not add https://
+        prefix"""
+        if url.startswith('http'):
+            return url
+        return f"https://{url}"
 
     def _get_opportunity(self, opportunity_id: int) -> dict:
         """Raw get opportunity"""

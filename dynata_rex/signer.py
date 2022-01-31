@@ -131,14 +131,26 @@ class Signer:
             return parameters
         return urlencode(parameters, doseq=True)
 
+    def sign_query_parameters_from_expiration_date(self, *args, **kwargs):
+        return self.sign_query_params_from_expiration_date(*args, **kwargs)
+
+    def sign_query_params_from_ttl(self, *args, **kwargs):
+        return self.sign_query_parameters_from_ttl(*args, **kwargs)
+
     def sign_query_parameters_from_ttl(self,
                                        parameters: dict,
-                                       ttl: Union[int, None] = None) -> str:
+                                       ttl: Union[int, None] = None,
+                                       access_key: str = None,
+                                       secret_key: str = None,
+                                       as_dict=False) -> str:
         if ttl is None:
             ttl = self.ttl
         expiration_date_str = self.create_expiration_date(ttl)
         return self.sign_query_params_from_expiration_date(parameters,
-                                                           expiration_date_str)
+                                                           expiration_date_str,
+                                                           access_key,
+                                                           secret_key,
+                                                           as_dict)
 
 
 class RexRequest:
@@ -165,7 +177,6 @@ class RexRequest:
         )
 
     def _create_auth_headers(self,
-                             url,
                              additional_headers={},
                              body=''):
         signing_string = self.signer._create_request_body_signing_string(body)
@@ -189,8 +200,7 @@ class RexRequest:
             additional_headers = {'Content-type': 'application/json'}
             data = json.dumps(data)
 
-        headers = self._create_auth_headers(url,
-                                            additional_headers,
+        headers = self._create_auth_headers(additional_headers,
                                             body=data)
 
         if not hasattr(self.session, method.lower()):
