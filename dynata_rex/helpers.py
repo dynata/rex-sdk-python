@@ -23,14 +23,6 @@ DEFAULT_TIMEOUT = int(os.environ.get('DEFAULT_TIMEOUT', '60'))
 DEFAULT_RETRIES = int(os.environ.get('DEFAULT_RETRIES', '3'))
 
 
-class MaxRetriesExceeded(Exception):
-    pass
-
-
-class TimeoutExceeded(ReadTimeout):
-    pass
-
-
 class TimeoutHTTPAdapter(HTTPAdapter):
 
     def _wait(self, try_number):
@@ -66,6 +58,8 @@ def make_session(request_timeout=DEFAULT_TIMEOUT):
     """Make a session and mount the TimeoutHTTPAdapter"""
     session = requests.Session()
     adapter = TimeoutHTTPAdapter(request_timeout=request_timeout)
+    # TODO: Set dynata_rex.__version__ and use instead of 0.0.1
+    session.headers["User-Agent"] = 'rex-sdk-python/0.0.1'
     session.mount('https://', adapter)
     session.mount('http://', adapter)
     return session
