@@ -1,0 +1,444 @@
+[
+    {
+        "id": 12871,
+        "status": "CLOSED",
+        "client_id": null,
+        "length_of_interview": 10,
+        "incidence_rate": 100,
+        "cost_per_interview": 0.77,
+        "completes": 100,
+        "project_id": 1589419,
+        "group_id": 112411272,
+        "evaluation": "COMPLETES",
+        "days_in_field": 58,
+        "category_ids": [
+            572
+        ],
+        "locale": {
+            "language": "en",
+            "country": "US"
+        },
+        "devices": [
+            "desktop",
+            "mobile",
+            "tablet"
+        ],
+        "cells": [
+            {
+                "tag": "163a74b4-68fd-4bae-b264-03e626a20b2f",
+                "attribute_id": 80,
+                "negate": false,
+                "kind": "RANGE",
+                "range": {
+                    "from": 18,
+                    "to": 99
+                }
+            },
+            {
+                "tag": "94a0330b-713c-46bb-b020-e03ee850c155",
+                "attribute_id": 1,
+                "negate": false,
+                "kind": "VALUE",
+                "value": "1"
+            }
+        ],
+        "filters": [
+            [
+                {
+                    "id": "55635b298f2d0bd9a4c4c3360a6390dda883aa4b729f7bfe33200c9c767727b5",
+                    "cells": [
+                        "163a74b4-68fd-4bae-b264-03e626a20b2f"
+                    ]
+                }
+            ],
+            [
+                {
+                    "id": "649346cc10e1250044aacac375b1d13fbca0aca454cd607187c394233374f89d",
+                    "cells": [
+                        "94a0330b-713c-46bb-b020-e03ee850c155"
+                    ]
+                }
+            ]
+        ],
+        "quotas": [
+            [
+                {
+                    "id": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "cells": [],
+                    "count": 100,
+                    "status": "OPEN"
+                }
+            ]
+        ],
+        "links": {
+            "live": "https://respondent.qa-rex.dynata.com/start?ctx=a7cc720b-208a-4e55-bab6-c619a765b24a&language=en"
+        },
+        "created": "2021-11-02T18:45:04.256Z",
+        "project_exclusions": [],
+        "category_exclusions": []
+    },
+    {
+        "id": 13174,
+        "status": "OPEN",
+        "client_id": null,
+        "length_of_interview": 10,
+        "incidence_rate": 100,
+        "cost_per_interview": 0.77,
+        "completes": 100,
+        "project_id": 1589419,
+        "group_id": 112411272,
+        "evaluation": "COMPLETES",
+        "days_in_field": 56,
+        "category_ids": [
+            572
+        ],
+        "locale": {
+            "language": "en",
+            "country": "US"
+        },
+        "devices": [
+            "desktop",
+            "mobile",
+            "tablet"
+        ],
+        "cells": [
+            {
+                "tag": "8af2975f-6031-41c6-95a8-b01dbc0e9181",
+                "attribute_id": 80,
+                "negate": false,
+                "kind": "RANGE",
+                "range": {
+                    "from": 18,
+                    "to": 99
+                }
+            },
+            {
+                "tag": "14464584-26ba-4778-807c-d9287fe88834",
+                "attribute_id": 1,
+                "negate": false,
+                "kind": "VALUE",
+                "value": "1"
+            },
+            {
+                "tag": "c5da37b6-e149-47a0-8296-d20016125b1e",
+                "attribute_id": 8,
+                "negate": false,
+                "kind": "COLLECTION",
+                "collection": "2169971"
+            }
+        ],
+        "filters": [
+            [
+                {
+                    "id": "8436e315fa54b4f49922eca9c04a8de005a4b04079b2a5b6333546d962f677e8",
+                    "cells": [
+                        "8af2975f-6031-41c6-95a8-b01dbc0e9181"
+                    ]
+                }
+            ],
+            [
+                {
+                    "id": "d971ce68da5cd2f96c9b333acadd22c399d516d97bbda4384b44bbbd566883bd",
+                    "cells": [
+                        "14464584-26ba-4778-807c-d9287fe88834"
+                    ]
+                }
+            ],
+            [
+                {
+                    "id": "4e2d6e4c25bfec5864da20ddfbeb4fde9a100c00168106519bbb3441f407369c",
+                    "cells": [
+                        "c5da37b6-e149-47a0-8296-d20016125b1e"
+                    ]
+                }
+            ]
+        ],
+        "quotas": [
+            [
+                {
+                    "id": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "cells": [],
+                    "count": 100,
+                    "status": "OPEN"
+                }
+            ]
+        ],
+        "links": {
+            "live": "https://respondent.qa-rex.dynata.com/start?ctx=a7cc720b-208a-4e55-bab6-c619a765b24a&language=en"
+        },
+        "created": "2021-11-04T20:37:04.236Z",
+        "project_exclusions": [],
+        "category_exclusions": []
+    },
+    {
+        "id": 12872,
+        "status": "OPEN",
+        "client_id": null,
+        "length_of_interview": 10,
+        "incidence_rate": 100,
+        "cost_per_interview": 0.77,
+        "completes": 100,
+        "project_id": 1589419,
+        "group_id": 112411280,
+        "evaluation": "COMPLETES",
+        "days_in_field": 58,
+        "category_ids": [
+            572
+        ],
+        "locale": {
+            "language": "en",
+            "country": "US"
+        },
+        "devices": [
+            "desktop",
+            "mobile",
+            "tablet"
+        ],
+        "cells": [
+            {
+                "tag": "5b454633-aba8-4232-9392-7d18b48badc4",
+                "attribute_id": 80,
+                "negate": false,
+                "kind": "RANGE",
+                "range": {
+                    "from": 18,
+                    "to": 24
+                }
+            },
+            {
+                "tag": "8a639617-8a47-44ef-866d-5a93cdebb121",
+                "attribute_id": 80,
+                "negate": false,
+                "kind": "RANGE",
+                "range": {
+                    "from": 18,
+                    "to": 99
+                }
+            },
+            {
+                "tag": "069a40d6-3b5c-4bfe-8bb8-fef721b61a8c",
+                "attribute_id": 1,
+                "negate": false,
+                "kind": "VALUE",
+                "value": "1"
+            },
+            {
+                "tag": "9bfe64b0-9a3f-4551-9a90-d437d88e30f5",
+                "attribute_id": 100262,
+                "negate": true,
+                "kind": "LIST",
+                "list": [
+                    "20000144",
+                    "20000149",
+                    "20000127",
+                    "20000158",
+                    "20000140",
+                    "20000152",
+                    "20000155",
+                    "20000124"
+                ]
+            }
+        ],
+        "filters": [
+            [
+                {
+                    "id": "a82f24d3833cd9eddf50c482d8840be6926ed7d675aa43a6af01ad93e0a4b4e7",
+                    "cells": [
+                        "8a639617-8a47-44ef-866d-5a93cdebb121"
+                    ]
+                }
+            ],
+            [
+                {
+                    "id": "6a0305f733b401bed1228aab55b27ddc0945fbaf16b192f814124594ff0ac924",
+                    "cells": [
+                        "069a40d6-3b5c-4bfe-8bb8-fef721b61a8c"
+                    ]
+                }
+            ],
+            [
+                {
+                    "id": "d7edbaaae44ec72f08cc734407dc6e014ecf0f536d6b34a4c75581edec5753f5",
+                    "cells": [
+                        "9bfe64b0-9a3f-4551-9a90-d437d88e30f5"
+                    ]
+                }
+            ]
+        ],
+        "quotas": [
+            [
+                {
+                    "id": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+                    "cells": [
+                        "5b454633-aba8-4232-9392-7d18b48badc4"
+                    ],
+                    "count": 100,
+                    "status": "OPEN"
+                }
+            ]
+        ],
+        "links": {
+            "live": "https://respondent.qa-rex.dynata.com/start?ctx=f221ba5c-fb97-49da-8e5b-23c7537ad68f&language=en"
+        },
+        "created": "2021-11-02T18:49:02.162Z",
+        "project_exclusions": [],
+        "category_exclusions": []
+    },
+    {
+        "id": 13231,
+        "status": "OPEN",
+        "client_id": null,
+        "length_of_interview": 10,
+        "incidence_rate": 80,
+        "cost_per_interview": 0.77,
+        "completes": 1000,
+        "project_id": 1589419,
+        "group_id": 112412497,
+        "evaluation": "COMPLETES",
+        "days_in_field": 56,
+        "category_ids": [
+            572
+        ],
+        "locale": {
+            "language": "en",
+            "country": "US"
+        },
+        "devices": [
+            "desktop",
+            "mobile",
+            "tablet"
+        ],
+        "cells": [
+            {
+                "tag": "b81daaee-dc56-4c30-a823-73d29225076c",
+                "attribute_id": 1,
+                "negate": false,
+                "kind": "VALUE",
+                "value": "1"
+            },
+            {
+                "tag": "ad4e59d5-b2b3-4fb3-9e3e-37ed67180b70",
+                "attribute_id": 1,
+                "negate": false,
+                "kind": "VALUE",
+                "value": "2"
+            },
+            {
+                "tag": "23cb8f40-eac6-4d13-9f15-98a3b3d5cc6b",
+                "attribute_id": 80,
+                "negate": false,
+                "kind": "RANGE",
+                "range": {
+                    "from": 18,
+                    "to": 24
+                }
+            },
+            {
+                "tag": "3af91cc1-6287-4d20-97a3-e965a08e7cbd",
+                "attribute_id": 80,
+                "negate": false,
+                "kind": "RANGE",
+                "range": {
+                    "from": 25,
+                    "to": 31
+                }
+            },
+            {
+                "tag": "287cbfd1-6c2b-463a-9e62-f3229fe110c0",
+                "attribute_id": 80,
+                "negate": false,
+                "kind": "RANGE",
+                "range": {
+                    "from": 18,
+                    "to": 99
+                }
+            },
+            {
+                "tag": "eada53bf-6d8a-4c54-92bd-ea3afd9efba9",
+                "attribute_id": 1,
+                "negate": false,
+                "kind": "VALUE",
+                "value": "1"
+            },
+            {
+                "tag": "1c1c0c57-8f91-46a9-aa4a-9cbcc97efdcc",
+                "attribute_id": 8,
+                "negate": false,
+                "kind": "COLLECTION",
+                "collection": "2169971"
+            }
+        ],
+        "filters": [
+            [
+                {
+                    "id": "2cde78b2732c394cb02526bd1e8e3c7f15d11948cb6f215835f833c557b686c4",
+                    "cells": [
+                        "287cbfd1-6c2b-463a-9e62-f3229fe110c0"
+                    ]
+                }
+            ],
+            [
+                {
+                    "id": "9c78d747c5b69571f06e42c00f05c9fb1be6464ee9278b930b1bf69d5e9fcb30",
+                    "cells": [
+                        "eada53bf-6d8a-4c54-92bd-ea3afd9efba9"
+                    ]
+                }
+            ],
+            [
+                {
+                    "id": "b2784121ab5c9b565414d2d156568b57092fc291c5385f8d310ff8f9a5cdd5bc",
+                    "cells": [
+                        "1c1c0c57-8f91-46a9-aa4a-9cbcc97efdcc"
+                    ]
+                }
+            ]
+        ],
+        "quotas": [
+            [
+                {
+                    "id": "6f49b6b637befada84f2c57f8afb5f0cc53b2a35e970431fd4348ff58d6cf348",
+                    "cells": [
+                        "b81daaee-dc56-4c30-a823-73d29225076c",
+                        "23cb8f40-eac6-4d13-9f15-98a3b3d5cc6b"
+                    ],
+                    "count": 250,
+                    "status": "OPEN"
+                },
+                {
+                    "id": "0a538c0eabad742acc3f1cf7ac5ab5415b36cef027ba174b703d6d30ea945b85",
+                    "cells": [
+                        "b81daaee-dc56-4c30-a823-73d29225076c",
+                        "3af91cc1-6287-4d20-97a3-e965a08e7cbd"
+                    ],
+                    "count": 250,
+                    "status": "OPEN"
+                },
+                {
+                    "id": "558093d56c894f6f1c0081327fca31da662868870adf915ed557ed9c777271b6",
+                    "cells": [
+                        "ad4e59d5-b2b3-4fb3-9e3e-37ed67180b70",
+                        "23cb8f40-eac6-4d13-9f15-98a3b3d5cc6b"
+                    ],
+                    "count": 250,
+                    "status": "OPEN"
+                },
+                {
+                    "id": "8afeca9cdcef231a9f7bb4365c0918d5f152e0301183ca83fbda015005b925c1",
+                    "cells": [
+                        "ad4e59d5-b2b3-4fb3-9e3e-37ed67180b70",
+                        "3af91cc1-6287-4d20-97a3-e965a08e7cbd"
+                    ],
+                    "count": 250,
+                    "status": "OPEN"
+                }
+            ]
+        ],
+        "links": {
+            "live": "https://respondent.qa-rex.dynata.com/start?ctx=7321f626-0de5-4d45-b138-29864ce635b4&language=en"
+        },
+        "created": "2021-11-05T12:29:33.004Z",
+        "project_exclusions": [],
+        "category_exclusions": []
+    }
+]

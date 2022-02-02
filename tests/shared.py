@@ -6,6 +6,8 @@ Author(s): Grant W
 Description: Common values and functions for tests
 """
 # Python Imports
+import os
+import json
 
 # Third Party Imports
 from requests.models import Response
@@ -16,6 +18,7 @@ from requests.models import Response
 
 ACCESS_KEY = 'access_key'
 SECRET_KEY = 'secret_key'
+BASE_URL = 'http://fake-rex-url.dynata.com'
 
 SIGNING_STRING = 'signing_string'
 TEST_DATE_STR = "1970-01-01T00:00:00.000Z"
@@ -23,6 +26,20 @@ DEFAULT_PARAMETERS = {
     "param_1": "value_1",
     "param_2": "value_2"
 }
+
+
+def load_test_data():
+    """Load data out of /data folder so we can use it in our tests"""
+    out = {}
+    for fn in os.listdir(f"{os.getcwd()}/data"):
+        if fn.endswith('.json'):  # ignore non-json
+            with open(f'{os.getcwd()}/data/{fn}') as f:
+                key = fn.split('.')[0]
+                out[key] = json.load(f)
+    return out
+
+
+TEST_DATA = load_test_data()
 
 
 class ResponseMock:
@@ -33,7 +50,6 @@ class ResponseMock:
                        content_type='text/plain'):
         response = Response()
         response.status_code = status_code
-        # if content:
         response._content = str.encode(content)
         response.headers['content-type'] = content_type
         return response

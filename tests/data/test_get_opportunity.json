@@ -1,0 +1,78 @@
+{
+    "id": 12871,
+    "status": "CLOSED",
+    "client_id": null,
+    "length_of_interview": 10,
+    "incidence_rate": 100,
+    "cost_per_interview": 0.77,
+    "completes": 100,
+    "project_id": 1589419,
+    "group_id": 112411272,
+    "evaluation": "COMPLETES",
+    "days_in_field": 58,
+    "category_ids": [
+        572
+    ],
+    "locale": {
+        "language": "en",
+        "country": "US"
+    },
+    "devices": [
+        "desktop",
+        "mobile",
+        "tablet"
+    ],
+    "cells": [
+        {
+            "tag": "163a74b4-68fd-4bae-b264-03e626a20b2f",
+            "attribute_id": 80,
+            "negate": false,
+            "kind": "RANGE",
+            "range": {
+                "from": 18,
+                "to": 99
+            }
+        },
+        {
+            "tag": "94a0330b-713c-46bb-b020-e03ee850c155",
+            "attribute_id": 1,
+            "negate": false,
+            "kind": "VALUE",
+            "value": "1"
+        }
+    ],
+    "filters": [
+        [
+            {
+                "id": "55635b298f2d0bd9a4c4c3360a6390dda883aa4b729f7bfe33200c9c767727b5",
+                "cells": [
+                    "163a74b4-68fd-4bae-b264-03e626a20b2f"
+                ]
+            }
+        ],
+        [
+            {
+                "id": "649346cc10e1250044aacac375b1d13fbca0aca454cd607187c394233374f89d",
+                "cells": [
+                    "94a0330b-713c-46bb-b020-e03ee850c155"
+                ]
+            }
+        ]
+    ],
+    "quotas": [
+        [
+            {
+                "id": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "cells": [],
+                "count": 100,
+                "status": "OPEN"
+            }
+        ]
+    ],
+    "links": {
+        "live": "https://respondent.qa-rex.dynata.com/start?ctx=a7cc720b-208a-4e55-bab6-c619a765b24a&language=en"
+    },
+    "created": "2021-11-02T18:45:04.256Z",
+    "project_exclusions": [],
+    "category_exclusions": []
+}
