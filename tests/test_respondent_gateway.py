@@ -258,6 +258,26 @@ def test_verify_query_params_secret_and_access_keys(fun):
         'secret_key'
     )
 
+@patch.object(Signer, "create_expiration_date")
+def test_verify_url_success(fun):
+    url = "https://respondent.qa-rex.dynata.com/start" \
+          "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
+          "&language=es" \
+          "&access_key=access_key" \
+          "&secret_key=secret_key" \
+          "&expiration=2099-01-01T00:00:00.000Z" \
+          "&signature=386b8ad95a284f9e944dd0" \
+          "12dfc92c1872790a9bad2e00e19b57c346fb725629"
+
+    assert GATEWAY.verify_url(url)
+
+
+@patch.object(Signer, "create_expiration_date")
+def test_verify_url_bad_url(fun):
+    url = "https://unsigned-url-haha-whattup-hahaha.com/start"
+
+    assert not GATEWAY.verify_url(url)
+
 
 def test_get_respondent_disposition_complete():
     url = "https://respondent.qa-rex.dynata.com/start" \
@@ -286,6 +306,43 @@ def test_get_respondent_disposition_does_not_exist():
               "2dfc92c1872790a9bad2e00e19b57c346fb725629"
         GATEWAY.get_respondent_disposition(url)
     assert "15 is not a valid GatewayDispositionsEnum" in str(excinfo.value)
+
+
+def test_get_respondent_disposition_missing_disposition():
+    url = "https://respondent.qa-rex.dynata.com/start" \
+            "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
+            "&language=es" \
+            "&access_key=access_key" \
+            "&secret_key=secret_key" \
+            "&expiration=2099-01-01T00:00:00.000Z" \
+            "&signature=386b8ad95a284f9e944dd01" \
+            "2dfc92c1872790a9bad2e00e19b57c346fb725629"
+    assert not GATEWAY.get_respondent_disposition(url)
+
+
+def test_get_respondent_status_missing_disposition():
+    url = "https://respondent.qa-rex.dynata.com/start" \
+            "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
+            "&language=es" \
+            "&access_key=access_key" \
+            "&secret_key=secret_key" \
+            "&expiration=2099-01-01T00:00:00.000Z" \
+            "&signature=386b8ad95a284f9e944dd01" \
+            "2dfc92c1872790a9bad2e00e19b57c346fb725629"
+    assert not GATEWAY.get_respondent_status(url)
+
+
+def test_get_respondent_status_missing_status():
+    url = "https://respondent.qa-rex.dynata.com/start" \
+            "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
+            "&language=es" \
+            "&access_key=access_key" \
+            "&secret_key=secret_key" \
+            "&disposition=2" \
+            "&expiration=2099-01-01T00:00:00.000Z" \
+            "&signature=386b8ad95a284f9e944dd01" \
+            "2dfc92c1872790a9bad2e00e19b57c346fb725629"
+    assert not GATEWAY.get_respondent_status(url)
 
 
 def test_get_respondent_status():
