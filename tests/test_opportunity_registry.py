@@ -192,4 +192,3 @@ def test_download_collection(session_post):
     r = REGISTRY.download_collection('1234567')
 
     assert isinstance(r, list)
-
