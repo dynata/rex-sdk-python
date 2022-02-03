@@ -127,3 +127,51 @@ def test_list_opportunities_assert_ack_for_invalid_opportunity(session_post,
 
     # Make sure the ack method was called for the invalid opportunity
     assert ack_method.call_count == 1
+
+
+@patch.object(dynata_rex.OpportunityRegistry, "ack_opportunities")
+@patch.object(requests.Session, "post")
+def test_ack_opportunity(session_post, ack_method):
+    """list opportunities should 'ack' an opportunity returned
+       that it cannot convert into an Opportunity object"""
+
+    data = TEST_DATA['test_list_opportunities'][0]
+
+    session_post.return_value = ResponseMock._response_mock(
+        200, content=json.dumps(data), content_type="application/json"
+    )
+    REGISTRY.ack_opportunity(data['id'])
+
+    assert ack_method.call_count == 1
+
+
+@patch.object(dynata_rex.OpportunityRegistry, "ack_opportunities")
+@patch.object(requests.Session, "post")
+def test_ack_opportunities(session_post, ack_method):
+    """list opportunities should 'ack' an opportunity returned
+       that it cannot convert into an Opportunity object"""
+
+    data = TEST_DATA['test_list_opportunities']
+
+    session_post.return_value = ResponseMock._response_mock(
+        200, content_type="application/json"
+    )
+
+    REGISTRY.ack_opportunities(data)
+
+    assert ack_method.call_count == 1
+
+
+@patch.object(requests.Session, "post")
+def test_download_collection(session_post):
+    """list opportunities should 'ack' an opportunity returned
+       that it cannot convert into an Opportunity object"""
+
+    data = TEST_DATA['test_list_opportunities'][0]
+
+    session_post.return_value = ResponseMock._response_mock(
+        200, content=json.dumps(data), content_type="application/json"
+    )
+
+    r = REGISTRY.download_collection(data['id'])
+    assert isinstance(r, dict)
