@@ -119,8 +119,9 @@ class OpportunityRegistry:
         res = self.make_request.post(endpoint, opportunities)
         return res
 
-    def download_collection(self, collection_id: int) -> list:
+    def download_collection(self, collection_id: str) -> list:
         """Download targeting from a collection cell"""
         endpoint = f"{self.base_url}/download-collection"
-        data = {"id": collection_id}
-        return self.make_request.post(endpoint, data)
+        data = {"id": str(collection_id)}
+        res = self.make_request.post(endpoint, data)
+        return str(res).split('\n')

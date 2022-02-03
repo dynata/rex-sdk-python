@@ -32,10 +32,13 @@ def load_test_data():
     """Load data out of /data folder so we can use it in our tests"""
     out = {}
     for fn in os.listdir(f"{os.getcwd()}/data"):
-        if fn.endswith('.json'):  # ignore non-json
+        key = fn.split('.')[0]
+        if fn.endswith('.json'):
             with open(f'{os.getcwd()}/data/{fn}') as f:
-                key = fn.split('.')[0]
                 out[key] = json.load(f)
+        if fn.endswith('.txt'):
+            with open(f'{os.getcwd()}/data/{fn}') as f:
+                out[key] = f.read()
     return out
 
 
