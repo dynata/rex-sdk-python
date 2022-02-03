@@ -258,6 +258,7 @@ def test_verify_query_params_secret_and_access_keys(fun):
         'secret_key'
     )
 
+
 @patch.object(Signer, "create_expiration_date")
 def test_verify_url_success(fun):
     url = "https://respondent.qa-rex.dynata.com/start" \
