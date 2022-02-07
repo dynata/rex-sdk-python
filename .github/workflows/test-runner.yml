@@ -20,9 +20,6 @@ jobs:
       run: |
         pip install -U pip wheel
         pip install -e ".[testing]"
-    - name: Run validation
-      run: |
-        python setup.py validate
     - name: Run codecov (only 3.9)
       run: |
         pytest -s
