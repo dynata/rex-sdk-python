@@ -9,9 +9,9 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="dynata_rex",
-    version="0.0.1",
-    author="Grant Ward",
-    author_email="grant.ward@dynata.com",
+    version="1.0.0",
+    author="REX Maintainers",
+    author_email="tech.supply@Dynata.com",
     description=("Package for building and interacting with the "
                  "Dynata Respondent Exchange (REX)"),
     long_description=long_description,
@@ -22,10 +22,12 @@ setuptools.setup(
     install_requires=requirements,
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
-    keywords='smor dynata python',
+    keywords='respondent exchange rex smor dynata python',
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.8',
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
 )
