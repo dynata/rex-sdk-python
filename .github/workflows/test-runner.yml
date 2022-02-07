@@ -20,6 +20,6 @@ jobs:
       run: |
         pip install -U pip wheel
         pip install -e ".[testing]"
-    - name: Run codecov (only 3.9)
+    - name: Run pytest
       run: |
         pytest -s

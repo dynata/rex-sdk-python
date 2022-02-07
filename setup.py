@@ -21,6 +21,10 @@ setuptools.setup(
     platforms=['Any'],
     install_requires=requirements,
     setup_requires=['pytest-runner'],
+    extras_require={
+        # pip install -e ".[testing]"
+        "testing": ['pytest'],
+    },
     tests_require=['pytest'],
     keywords='respondent exchange rex smor dynata python',
     classifiers=[
