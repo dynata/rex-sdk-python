@@ -7,7 +7,8 @@ Description: Implementation of dataclasses for Opportunity Registry opps
 """
 # Python Imports
 from enum import Enum
-from typing import List, Literal, Union, Optional
+from typing import List, Optional, Union
+from typing_extensions import Literal
 
 # Third Party Imports
 from pydantic import Field, HttpUrl
