@@ -209,4 +209,73 @@ gw.expire_context('super-unique-ctx-id')
 # }
 ```
 
+##### Get Attributes
+```
+gw.get_attributes('country', 'page_number', 'page_size')
+
+# {
+#    'data':
+#    [
+#       {
+#           'active': true,
+#           'parameter_id": 402
+#       }
+#    ]
+# }
+```
+
+##### Get Attribute Info
+```
+gw.get_attribute_info('attribute-id')
+
+# {
+#   'id': 402,
+#   'name': "This Parameter",
+#   'description': "Details of what this is",
+#   'display_mode: "N" (Optional),
+#   'parent_dependencies':
+#   [
+#       'answer_ids':
+#       [
+#           { 12 }
+#       ],
+#       'parameter_id':403
+#   ],
+#   'expiration_duration': 36000 (Optional),
+#   'is_active': true,
+#   'countries':
+#   [
+#       { "US" }
+#   ],
+#   'question': (Optional)
+#   {
+#       'text': "How much wood can a woodchuck?",
+#       'translations': 
+#       [
+#           {
+#               'locale': "BG",
+#               'text': "Other Language"
+#           }
+#       ]
+#   }
+#   'answers': 
+#   [
+#       {
+#           'id': 99,
+#           'text': "A ton",
+#           'countries':
+#           [
+#               { "US" }
+#           ],
+#           'translations':
+#           [
+#               {
+#                   'locale': "GB",
+#                   'text': "Other language"
+#           ]
+#       }
+#   ]
+# }
+```
+
 

@@ -237,10 +237,42 @@ class RespondentGateway:
         return res if res else None
 
     def get_context(self, context_id: int) -> dict:
-        """Get specific opportunity from SMOR
+        """
+        Get specific opportunity from SMOR
 
         @context_id: identifier for the context
         """
         endpoint = f"{self.base_url}/get-context"
         data = {"id": context_id}
+        return self.make_request.post(endpoint, data)
+
+    def get_attribute_info(self, attribute_id: int) -> dict:
+        """
+        Get parameter info about a specific attribute id
+
+        @attribute_id: specific singular id for a parameter item
+        """
+        endpoint = f"{self.base_url}/get-attribute-info"
+        data = {"id": attribute_id}
+        return self.make_request.post(endpoint, data)
+
+    def get_attributes(self,
+                       country: str,
+                       page_number: int,
+                       page_size: int) -> dict:
+        """
+        Get a list of attribute id's and their statuses
+
+        @country: Country code for which you would like attributes
+
+        @page_number: What page number you are requesting (for pagination)
+
+        @page_size: How many id's you would like returned in each page
+        """
+        endpoint = f"{self.base_url}/get-attributes"
+        data = {
+            "country": country,
+            "page_number": page_number,
+            "page_size": page_size
+        }
         return self.make_request.post(endpoint, data)
