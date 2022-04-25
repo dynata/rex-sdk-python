@@ -256,7 +256,10 @@ class RespondentGateway:
         data = {"id": attribute_id}
         return self.make_request.post(endpoint, data)
 
-    def get_attributes(self, country: str, page_number: int, page_size: int) -> dict:
+    def get_attributes(self,
+                       country: str,
+                       page_number: int,
+                       page_size: int) -> dict:
         """
         Get a list of attribute id's and their statuses
 
