@@ -471,7 +471,7 @@ def test_get_attribute_info(fun):
             {
                 "answer_ids": [
                     {
-                        36
+                        "id": "int"
                     }
                 ],
                 "parameter_id": "int"
@@ -522,7 +522,7 @@ def test_get_attribute_info(fun):
                 {
                     "answer_ids": [
                         {
-                            36,
+                            "id": "int"
                         }
                     ],
                     "parameter_id": "int"
