@@ -51,13 +51,13 @@ def test_create_respondent_url(fun):
     fun.return_value = TEST_DATE_STR
 
     signed_url = GATEWAY.create_respondent_url(
-                                  'https://respondent.qa-rex.dynata.com/start'
-                                  '?ctx=7c26bf58'
-                                  '-43db-4370-977d-d14fa4356930&language=es',
-                                  '1989-09-16',
-                                  'male',
-                                  '00000',
-                                  '12345')
+        'https://respondent.qa-rex.dynata.com/start'
+        '?ctx=7c26bf58'
+        '-43db-4370-977d-d14fa4356930&language=es',
+        '1989-09-16',
+        'male',
+        '00000',
+        '12345')
     assert expected == signed_url
 
 
@@ -291,7 +291,7 @@ def test_get_respondent_disposition_complete():
           "&signature=386b8ad95a284f9e944dd0" \
           "12dfc92c1872790a9bad2e00e19b57c346fb725629"
 
-    assert GATEWAY.get_respondent_disposition(url) == GatewayDispositionsEnum['COMPLETE'] # noqa
+    assert GATEWAY.get_respondent_disposition(url) == GatewayDispositionsEnum['COMPLETE']  # noqa
 
 
 def test_get_respondent_disposition_does_not_exist():
@@ -311,38 +311,38 @@ def test_get_respondent_disposition_does_not_exist():
 
 def test_get_respondent_disposition_missing_disposition():
     url = "https://respondent.qa-rex.dynata.com/start" \
-            "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
-            "&language=es" \
-            "&access_key=access_key" \
-            "&secret_key=secret_key" \
-            "&expiration=2099-01-01T00:00:00.000Z" \
-            "&signature=386b8ad95a284f9e944dd01" \
-            "2dfc92c1872790a9bad2e00e19b57c346fb725629"
+          "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
+          "&language=es" \
+          "&access_key=access_key" \
+          "&secret_key=secret_key" \
+          "&expiration=2099-01-01T00:00:00.000Z" \
+          "&signature=386b8ad95a284f9e944dd01" \
+          "2dfc92c1872790a9bad2e00e19b57c346fb725629"
     assert not GATEWAY.get_respondent_disposition(url)
 
 
 def test_get_respondent_status_missing_disposition():
     url = "https://respondent.qa-rex.dynata.com/start" \
-            "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
-            "&language=es" \
-            "&access_key=access_key" \
-            "&secret_key=secret_key" \
-            "&expiration=2099-01-01T00:00:00.000Z" \
-            "&signature=386b8ad95a284f9e944dd01" \
-            "2dfc92c1872790a9bad2e00e19b57c346fb725629"
+          "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
+          "&language=es" \
+          "&access_key=access_key" \
+          "&secret_key=secret_key" \
+          "&expiration=2099-01-01T00:00:00.000Z" \
+          "&signature=386b8ad95a284f9e944dd01" \
+          "2dfc92c1872790a9bad2e00e19b57c346fb725629"
     assert not GATEWAY.get_respondent_status(url)
 
 
 def test_get_respondent_status_missing_status():
     url = "https://respondent.qa-rex.dynata.com/start" \
-            "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
-            "&language=es" \
-            "&access_key=access_key" \
-            "&secret_key=secret_key" \
-            "&disposition=2" \
-            "&expiration=2099-01-01T00:00:00.000Z" \
-            "&signature=386b8ad95a284f9e944dd01" \
-            "2dfc92c1872790a9bad2e00e19b57c346fb725629"
+          "?ctx=7c26bf58-43db-4370-977d-d14fa4356930" \
+          "&language=es" \
+          "&access_key=access_key" \
+          "&secret_key=secret_key" \
+          "&disposition=2" \
+          "&expiration=2099-01-01T00:00:00.000Z" \
+          "&signature=386b8ad95a284f9e944dd01" \
+          "2dfc92c1872790a9bad2e00e19b57c346fb725629"
     assert not GATEWAY.get_respondent_status(url)
 
 
@@ -358,7 +358,7 @@ def test_get_respondent_status():
           "&signature=386b8ad95a284f9e944dd01" \
           "2dfc92c1872790a9bad2e00e19b57c346fb725629"
 
-    assert GATEWAY.get_respondent_status(url) == GatewayStatusEnum.COMPLETE_DEFAULT # noqa
+    assert GATEWAY.get_respondent_status(url) == GatewayStatusEnum.COMPLETE_DEFAULT  # noqa
 
 
 def test_get_respondent_status_does_not_exist():
@@ -387,11 +387,11 @@ def test_create_context(fun):
     context = GATEWAY.create_context(
         "12345",
         {
-                "ctx": "a987dsglh34t435jkhsdg98u",
-                "gender": "male",
-                "postal_code": "60081",
-                "birth_date": "1959-10-05",
-                "country": "US"
+            "ctx": "a987dsglh34t435jkhsdg98u",
+            "gender": "male",
+            "postal_code": "60081",
+            "birth_date": "1959-10-05",
+            "country": "US"
         }
     )
     assert expected == context
@@ -431,4 +431,138 @@ def test_get_context(fun):
     )
 
     context = GATEWAY.get_context(12345)
+    assert context == expected
+
+
+@patch.object(requests.Session, "post")
+def test_get_attributes(fun):
+    expected = {
+        "data": [
+            {
+                "active": "bool",
+                "parameter_id": "int"
+            }
+        ]
+    }
+    fun.return_value = ResponseMock._response_mock(
+        200,
+        content=json.dumps({
+            "data": [
+                {
+                    "active": "bool",
+                    "parameter_id": "int"
+                }
+            ]
+        }),
+        content_type="text/plain"
+    )
+    context = GATEWAY.get_attributes("US", 0, 100)
+    assert context == expected
+
+
+@patch.object(requests.Session, "post")
+def test_get_attribute_info(fun):
+    expected = {
+        "id": "int",
+        "name": "string",
+        "description": "string",
+        "display_mode": "string",
+        "parent_dependencies": [
+            {
+                "answer_ids": [
+                    {
+                        "id": "int"
+                    }
+                ],
+                "parameter_id": "int"
+            }
+        ],
+        "expiration_duration": "int",
+        "is_active": "bool",
+        "countries": [
+            {
+                "code": "string"
+            }
+        ],
+        "question": {
+            "text": "string",
+            "translations": [
+                {
+                    "locale": "string",
+                    "text": "string"
+                }
+            ]
+        },
+        "answers": [
+            {
+                "id": "int",
+                "text": "string",
+                "countries": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "translations": [
+                    {
+                        "locale": "string",
+                        "text": "string"
+                    }
+                ]
+            }
+        ]
+    }
+    fun.return_value = ResponseMock._response_mock(
+        200,
+        content=json.dumps({
+            "id": "int",
+            "name": "string",
+            "description": "string",
+            "display_mode": "string",
+            "parent_dependencies": [
+                {
+                    "answer_ids": [
+                        {
+                            "id": "int"
+                        }
+                    ],
+                    "parameter_id": "int"
+                }
+            ],
+            "expiration_duration": "int",
+            "is_active": "bool",
+            "countries": [
+                {
+                    "code": "string"
+                }
+            ],
+            "question": {
+                "text": "string",
+                "translations": [
+                    {
+                        "locale": "string",
+                        "text": "string"
+                    }
+                ]
+            },
+            "answers": [
+                {
+                    "id": "int",
+                    "text": "string",
+                    "countries": [
+                        {
+                            "code": "string"
+                        }
+                    ],
+                    "translations": [
+                        {
+                            "locale": "string",
+                            "text": "string"
+                        }
+                    ]
+                }
+            ]
+        }),
+        content_type="text/plain"
+    )
+    context = GATEWAY.get_attribute_info(402)
     assert context == expected
