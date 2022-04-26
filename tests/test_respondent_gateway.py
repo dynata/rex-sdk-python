@@ -456,6 +456,8 @@ def test_get_attributes(fun):
         }),
         content_type="text/plain"
     )
+    context = GATEWAY.get_attributes("US", 0, 100)
+    assert context == expected
 
 
 @patch.object(requests.Session, "post")
@@ -562,3 +564,5 @@ def test_get_attributes(fun):
         }),
         content_type="text/plain"
     )
+    context = GATEWAY.get_attribute_info(402)
+    assert context == expected
