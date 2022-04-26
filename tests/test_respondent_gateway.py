@@ -481,7 +481,7 @@ def test_get_attribute_info(fun):
         "is_active": "bool",
         "countries": [
             {
-                "US"
+                "code": "string"
             }
         ],
         "question": {
@@ -499,7 +499,7 @@ def test_get_attribute_info(fun):
                 "text": "string",
                 "countries": [
                     {
-                        "US"
+                        "code": "string"
                     }
                 ],
                 "translations": [
