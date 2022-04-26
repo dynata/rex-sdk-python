@@ -471,7 +471,7 @@ def test_get_attribute_info(fun):
             {
                 "answer_ids": [
                     {
-                        36, 12, 34
+                        36
                     }
                 ],
                 "parameter_id": "int"
@@ -481,7 +481,7 @@ def test_get_attribute_info(fun):
         "is_active": "bool",
         "countries": [
             {
-                "US", "CA", "AU"
+                "US"
             }
         ],
         "question": {
@@ -499,7 +499,7 @@ def test_get_attribute_info(fun):
                 "text": "string",
                 "countries": [
                     {
-                        "US", "CA", "AU"
+                        "US"
                     }
                 ],
                 "translations": [
@@ -522,7 +522,7 @@ def test_get_attribute_info(fun):
                 {
                     "answer_ids": [
                         {
-                            36, 12, 34
+                            36,
                         }
                     ],
                     "parameter_id": "int"
@@ -532,7 +532,7 @@ def test_get_attribute_info(fun):
             "is_active": "bool",
             "countries": [
                 {
-                    "US", "CA", "AU"
+                    "US"
                 }
             ],
             "question": {
@@ -550,7 +550,7 @@ def test_get_attribute_info(fun):
                     "text": "string",
                     "countries": [
                         {
-                            "US", "CA", "AU"
+                            "US"
                         }
                     ],
                     "translations": [
