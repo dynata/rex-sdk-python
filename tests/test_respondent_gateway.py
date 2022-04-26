@@ -461,7 +461,7 @@ def test_get_attributes(fun):
 
 
 @patch.object(requests.Session, "post")
-def test_get_attributes(fun):
+def test_get_attribute_info(fun):
     expected = {
         "id": "int",
         "name": "string",
