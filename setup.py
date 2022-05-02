@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 
 setuptools.setup(
-    name="dynata-rex-sdk",
+    name="dynata_rex",
     version="1.1.0",
     author="REX Maintainers",
     author_email="tech.supply@Dynata.com",
