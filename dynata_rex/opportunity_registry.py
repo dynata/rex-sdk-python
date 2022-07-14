@@ -109,7 +109,8 @@ class OpportunityRegistry:
 
         return out
 
-    def receive_notifications(self, limit: int = 10) -> List[models.Opportunity]:
+    def receive_notifications(self,
+                              limit: int = 10) -> List[models.Opportunity]:
         """Get opportunity notifications from Opportunity Registry"""
         opportunities = self._receive_notifications(limit=limit)
         out = []
