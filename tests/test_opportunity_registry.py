@@ -70,15 +70,15 @@ def test_get_opportunity(session_post):
 
 
 @patch.object(requests.Session, "post")
-def test__list_opportunities(session_post):
-    """_list_opportunities should return the json data from response as a
+def test__receive_notifications(session_post):
+    """_receive_notifications should return the json data from response as a
     list of dicts"""
-    data = TEST_DATA['test_list_opportunities']
+    data = TEST_DATA['test_receive_notifications']
     session_post.return_value = ResponseMock._response_mock(
         200, content=json.dumps(data), content_type="application/json"
     )
 
-    r = REGISTRY._list_opportunities()
+    r = REGISTRY._receive_notifications()
 
     assert isinstance(r, list)
 
@@ -87,14 +87,14 @@ def test__list_opportunities(session_post):
 
 
 @patch.object(requests.Session, "post")
-def test_list_opportunities(session_post):
-    """_get_opportunity should return the json data from response as a
+def test_receive_notifications(session_post):
+    """_receive_notifications should return the json data from response as a
     list of Opportunity objects"""
-    data = TEST_DATA['test_list_opportunities']
+    data = TEST_DATA['test_receive_notifications']
     session_post.return_value = ResponseMock._response_mock(
         200, content=json.dumps(data), content_type="application/json"
     )
-    r = REGISTRY.list_opportunities()
+    r = REGISTRY.receive_notifications()
 
     assert isinstance(r, list)
 
@@ -102,13 +102,13 @@ def test_list_opportunities(session_post):
         assert isinstance(opportunity, dynata_rex.models.Opportunity)
 
 
-@patch.object(dynata_rex.OpportunityRegistry, "ack_opportunity")
+@patch.object(dynata_rex.OpportunityRegistry, "ack_notification")
 @patch.object(requests.Session, "post")
-def test_list_opportunities_assert_ack_for_invalid_opportunity(session_post,
+def test_receive_notifications_assert_ack_for_invalid_opportunity(session_post,
                                                                ack_method):
-    """list opportunities should 'ack' an opportunity returned
+    """receive notifications should 'ack' a notification returned
     that it cannot convert into an Opportunity object"""
-    data = TEST_DATA['test_list_opportunities']
+    data = TEST_DATA['test_receive_notifications']
 
     # Append an invalid Opportunity
     data.append(
@@ -123,41 +123,41 @@ def test_list_opportunities_assert_ack_for_invalid_opportunity(session_post,
     session_post.return_value = ResponseMock._response_mock(
         200, content=json.dumps(data), content_type="application/json"
     )
-    REGISTRY.list_opportunities()
+    REGISTRY.receive_notifications()
 
     # Make sure the ack method was called for the invalid opportunity
     assert ack_method.call_count == 1
 
 
-@patch.object(dynata_rex.OpportunityRegistry, "ack_opportunities")
+@patch.object(dynata_rex.OpportunityRegistry, "ack_notifications")
 @patch.object(requests.Session, "post")
-def test_ack_opportunity(session_post, ack_method):
-    data = TEST_DATA['test_list_opportunities'][0]
+def test_ack_notification(session_post, ack_method):
+    data = TEST_DATA['test_receive_notifications'][0]
 
     session_post.return_value = ResponseMock._response_mock(
         200, content=json.dumps(data), content_type="application/json"
     )
-    REGISTRY.ack_opportunity(data['id'])
+    REGISTRY.ack_notification(data['id'])
 
     assert ack_method.call_count == 1
 
-    # Make sure we called parent `ack_opportunities` method with
+    # Make sure we called parent `ack_notifications` method with
     # [ data['id'] ]
     assert ack_method.call_args == (([data['id']],),)
 
 
 @patch.object(requests.Session, "post")
-def test_ack_opportunities(session_post):
-    """list opportunities should 'ack' an opportunity returned
+def test_ack_notifications(session_post):
+    """receive notifications should 'ack' an opportunity returned
        that it cannot convert into an Opportunity object"""
 
-    data = [x['id'] for x in TEST_DATA['test_list_opportunities']]
+    data = [x['id'] for x in TEST_DATA['test_receive_notifications']]
 
     session_post.return_value = ResponseMock._response_mock(
         204, content_type="application/json"
     )
 
-    REGISTRY.ack_opportunities(data)
+    REGISTRY.ack_notifications(data)
 
     assert session_post.call_count == 1
     assert session_post.call_args[1]['data'] == json.dumps(data)
