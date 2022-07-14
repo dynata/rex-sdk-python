@@ -105,7 +105,7 @@ def test_receive_notifications(session_post):
 @patch.object(dynata_rex.OpportunityRegistry, "ack_notification")
 @patch.object(requests.Session, "post")
 def test_receive_notifications_assert_ack_for_invalid_opportunity(session_post,
-                                                               ack_method):
+                                                                  ack_method):
     """receive notifications should 'ack' a notification returned
     that it cannot convert into an Opportunity object"""
     data = TEST_DATA['test_receive_notifications']
