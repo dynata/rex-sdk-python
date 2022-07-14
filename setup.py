@@ -9,7 +9,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="dynata_rex",
-    version="1.1.0",
+    version="1.2.0",
     author="REX Maintainers",
     author_email="tech.supply@Dynata.com",
     description=("Package for building and interacting with the "
