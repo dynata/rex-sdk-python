@@ -261,6 +261,8 @@ class RespondentGateway:
                        page_number: int,
                        page_size: int) -> dict:
         """
+        [Deprecated - please use list_attributes()]
+
         Get a list of attribute id's and their statuses
 
         @country: Country code for which you would like attributes
@@ -270,6 +272,27 @@ class RespondentGateway:
         @page_size: How many id's you would like returned in each page
         """
         endpoint = f"{self.base_url}/get-attributes"
+        data = {
+            "country": country,
+            "page_number": page_number,
+            "page_size": page_size
+        }
+        return self.make_request.post(endpoint, data)
+
+    def list_attributes(self,
+                        country: str,
+                        page_number: int,
+                        page_size: int) -> dict:
+        """
+        Get a list of attribute id's and their statuses
+
+        @country: Country code for which you would like attributes
+
+        @page_number: What page number you are requesting (for pagination)
+
+        @page_size: How many id's you would like returned in each page
+        """
+        endpoint = f"{self.base_url}/list-attributes"
         data = {
             "country": country,
             "page_number": page_number,

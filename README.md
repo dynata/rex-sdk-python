@@ -14,9 +14,9 @@ Package for building and interacting with the Dynata Respondent Exchange (REX)
 from dynata_rex import OpportunityRegistry
 registry = OpportunityRegistry('rex_access_key', 'rex_secret_key')
 ```
-### List opportunities from the registry
+### List opportunity notifications from the registry
 ```
-opportunities = registry.list_opportunities()
+opportunities = registry.receive_notifications()
 
 # [Opportunity(id=1,...), Opportunity(id=2,...), Opportunity(id=1,...)]
 ```
@@ -24,13 +24,13 @@ opportunities = registry.list_opportunities()
 ```
 opportunity_json = Opportunity.json()
 ```
-### Acknowledge a list of opportunities from the registry
+### Acknowledge a list of notifications from the registry
 ```
-registry.ack_opportunities([opportunity_1.id, ..., opportunity_N.id])
+registry.ack_notifications([opportunity_1.id, ..., opportunity_N.id])
 ```
-### Acknowledge a single opportunity from the registry
+### Acknowledge a single notification from the registry
 ```
-registry.ack_opportunity(opportunity.id)
+registry.ack_notification(opportunity.id)
 ```
 ### Get a list of corresponding opportunities from a project_id
 ```
@@ -209,9 +209,9 @@ gw.expire_context('super-unique-ctx-id')
 # }
 ```
 
-##### Get Attributes
+##### List Attributes
 ```
-gw.get_attributes('country', 'page_number', 'page_size')
+gw.list_attributes('country', 'page_number', 'page_size')
 
 # {
 #    'data':

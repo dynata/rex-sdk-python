@@ -65,7 +65,9 @@ class OpportunityRegistry:
         return self.make_request.post(endpoint, data)
 
     def _list_opportunities(self, limit: int = 10) -> List[dict]:
-        """Raw get opportunities"""
+        """
+        [Deprecated - please use _receive_notifications()]
+        Raw get opportunities"""
         endpoint = f"{self.base_url}/list-opportunities"
         data = {
             "limit": limit,
@@ -76,9 +78,22 @@ class OpportunityRegistry:
         }
         return self.make_request.post(endpoint, data)
 
+    def _receive_notifications(self, limit: int = 10) -> List[dict]:
+        """Raw receive notifications"""
+        endpoint = f"{self.base_url}/receive-notifications"
+        data = {
+            "limit": limit,
+            "shards": {
+                "count": self.shard_count,
+                "current": self.current_shard
+            }
+        }
+        return self.make_request.post(endpoint, data)
+
     def list_opportunities(self, limit: int = 10) -> List[models.Opportunity]:
-        """Get opportunities from Opportunity Registry
         """
+        [Deprecated - please use receive_notifications()]
+        Get opportunities from Opportunity Registry"""
         opportunities = self._list_opportunities(limit=limit)
         out = []
         for opp in opportunities:
@@ -91,6 +106,24 @@ class OpportunityRegistry:
                 logger.warning(json.dumps(opp, indent=4))
                 # Ack opportunity so we don't see it again
                 self.ack_opportunity(opportunity_id)
+
+        return out
+
+    def receive_notifications(self,
+                              limit: int = 10) -> List[models.Opportunity]:
+        """Get opportunity notifications from Opportunity Registry"""
+        opportunities = self._receive_notifications(limit=limit)
+        out = []
+        for opp in opportunities:
+            try:
+                out.append(models.Opportunity(**opp))
+            except pydantic.error_wrappers.ValidationError:
+                opportunity_id = opp['id']
+                logger.warning(
+                    f"Unable to parse {opportunity_id}, excluding...")
+                logger.warning(json.dumps(opp, indent=4))
+                # Ack notification so we don't see it again
+                self.ack_notification(opportunity_id)
 
         return out
 
@@ -107,15 +140,28 @@ class OpportunityRegistry:
         return self.make_request.post(endpoint, data)
 
     def ack_opportunity(self, opportunity_id: int) -> None:
-        """Acknowledge a single oppportunity
         """
+        [Deprecated - please use ack_notification()]
+        Acknowledge a single opportunity"""
         data = [opportunity_id]
         return self.ack_opportunities(data)
 
+    def ack_notification(self, opportunity_id: int) -> None:
+        """Acknowledge a single notification"""
+        data = [opportunity_id]
+        return self.ack_notifications(data)
+
     def ack_opportunities(self, opportunities: List[int]) -> None:
-        """Acknowledge a list of oppportunities
         """
+        [Deprecated - please use ack_notifications()]
+        Acknowledge a list of opportunities"""
         endpoint = f"{self.base_url}/ack-opportunities"
+        res = self.make_request.post(endpoint, opportunities)
+        return res
+
+    def ack_notifications(self, opportunities: List[int]) -> None:
+        """Acknowledge a list of notifications"""
+        endpoint = f"{self.base_url}/ack-notifications"
         res = self.make_request.post(endpoint, opportunities)
         return res
 
