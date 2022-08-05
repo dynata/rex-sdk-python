@@ -435,7 +435,7 @@ def test_get_context(fun):
 
 
 @patch.object(requests.Session, "post")
-def test_get_attributes(fun):
+def test_list_attributes(fun):
     expected = {
         "data": [
             {
@@ -456,7 +456,7 @@ def test_get_attributes(fun):
         }),
         content_type="text/plain"
     )
-    context = GATEWAY.get_attributes("US", 0, 100)
+    context = GATEWAY.list_attributes("US", 0, 100)
     assert context == expected
 
 

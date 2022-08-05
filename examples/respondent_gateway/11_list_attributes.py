@@ -7,7 +7,7 @@ page_number = 3  # Page Number Being Requested
 
 page_size = 100  # Number of Items Being Requested
 
-gateway.get_attributes(country, page_number, page_size)
+gateway.list_attributes(country, page_number, page_size)
 
 # {
 #   "data": [
