@@ -253,7 +253,7 @@ class RespondentGateway:
         @attribute_id: specific singular id for a parameter item
         """
         endpoint = f"{self.base_url}/get-attribute-info"
-        data = {"id": attribute_id}
+        data = {"attribute_id": attribute_id}
         return self.make_request.post(endpoint, data)
 
     def get_attributes(self,
