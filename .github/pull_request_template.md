@@ -31,7 +31,7 @@
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask. -->
 
-- [ ] My code follows the code style of this project. (used ESLint and prettier to fix style)
+- [ ] My code follows the code style of this project.
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
 - [ ] I have added tests to cover my changes.
