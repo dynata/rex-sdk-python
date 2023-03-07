@@ -200,3 +200,10 @@ class OpportunityRegistry:
                 # Ack invites so we don't see it again
                 self.ack_invites(invite_id)
         return out
+
+    def download_invite_collection(self, invite_id: str) -> list:
+        """Download invite collection from opportunity registry"""
+        endpoints = f"{self.base_url}/download-invite-collection"
+        data = {"id": invite_id}
+        res = self.make_request.post(endpoints, data)
+        return str(res).split('\n')
