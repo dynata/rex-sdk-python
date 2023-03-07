@@ -19,7 +19,8 @@ from .opportunity_registry import (
     Links,
     Quota,
     Filter,
-    Opportunity
+    Opportunity,
+    Invite
 )
 
 from .respondent_gateway import (
