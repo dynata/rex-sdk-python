@@ -16,6 +16,8 @@ import pytest
 # Dynata Imports
 import dynata_rex
 
+import dynata_rex.models
+
 # Local Imports
 from .shared import (ACCESS_KEY,
                      SECRET_KEY,
@@ -192,3 +194,47 @@ def test_download_collection(session_post):
     r = REGISTRY.download_collection('1234567')
 
     assert isinstance(r, list)
+
+
+@patch.object(requests.Session, "post")
+def test_download_invite_collection(session_post):
+    data = TEST_DATA['test_download_invite_collection']
+
+    session_post.return_value = ResponseMock._response_mock(
+        200, content=data, content_type="text/csv"
+    )
+
+    r = REGISTRY.download_invite_collection("12345567")
+
+    assert isinstance(r, list)
+
+
+@patch.object(requests.Session, "post")
+def test__receive_invites(session_post):
+    data = TEST_DATA['test_receive_invites']
+
+    session_post.return_value = ResponseMock._response_mock(
+        200, content=json.dumps(data), content_type="application/json"
+    )
+
+    r = REGISTRY._receive_invites()
+
+    assert isinstance(r, list)
+    for invite in r:
+        assert isinstance(invite, dict)
+
+
+@patch.object(requests.Session, "post")
+def test_receive_invites(session_post):
+    data = TEST_DATA['test_receive_invites']
+
+    session_post.return_value = ResponseMock._response_mock(
+        200, content=json.dumps(data), content_type="application/json"
+    )
+
+    r = REGISTRY.receive_invites()
+
+    assert isinstance(r, list)
+
+    for invite in r:
+        assert isinstance(invite, dynata_rex.models.Invite)

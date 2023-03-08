@@ -50,5 +50,6 @@ __all__ = [
     'Opportunity',
     'GatewayGenderEnum',
     'GatewayDispositionsEnum',
-    'GatewayStatusEnum'
+    'GatewayStatusEnum',
+    'Invite'
 ]
