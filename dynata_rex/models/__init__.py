@@ -19,7 +19,8 @@ from .opportunity_registry import (
     Links,
     Quota,
     Filter,
-    Opportunity
+    Opportunity,
+    Invite
 )
 
 from .respondent_gateway import (
@@ -49,5 +50,6 @@ __all__ = [
     'Opportunity',
     'GatewayGenderEnum',
     'GatewayDispositionsEnum',
-    'GatewayStatusEnum'
+    'GatewayStatusEnum',
+    'Invite'
 ]

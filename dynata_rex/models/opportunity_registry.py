@@ -133,7 +133,6 @@ class Filter(HashableModel):
 
 
 class Opportunity(HashableModel):
-
     class Config:
         allow_population_by_field_name = True
         validate_assignment = True
@@ -160,3 +159,12 @@ class Opportunity(HashableModel):
     filters: List[List[Filter]]
     cells: List[Union[RangeCell, ListCell, ValueCell, CollectionCell]]
     quotas: List[List[Quota]]
+
+
+class Invite(HashableModel):
+    id: int
+    collection_id: str
+    respondent_id: str
+    expiration: Optional[int]
+    modified: str
+    created: str

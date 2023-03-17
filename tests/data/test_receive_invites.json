@@ -1,0 +1,23 @@
+[
+  {
+    "id": 111,
+    "collection_id": "123",
+    "respondent_id": "456",
+    "modified": "14-02-2003",
+    "created": "14-01-2003"
+  },
+  {
+    "id": 222,
+    "collection_id": "321",
+    "respondent_id": "654",
+    "modified": "30-12-1990",
+    "created": "10-11-1990"
+  },
+  {
+    "id": 333,
+    "collection_id": "231",
+    "respondent_id": "546",
+    "modified": "30-12-1990",
+    "created": "10-11-1990"
+  }
+]

@@ -20,7 +20,6 @@ from .exceptions import InvalidShardException
 
 
 class OpportunityRegistry:
-
     _BASE_URL = 'https://registry.rex.dynata.com'
 
     def __init__(self,
@@ -87,6 +86,14 @@ class OpportunityRegistry:
                 "count": self.shard_count,
                 "current": self.current_shard
             }
+        }
+        return self.make_request.post(endpoint, data)
+
+    def _receive_invites(self, limit: int = 10) -> list[dict]:
+        """Raw receive invites"""
+        endpoint = f"{self.base_url}/receive_invites"
+        data = {
+            "limit": limit
         }
         return self.make_request.post(endpoint, data)
 
@@ -170,4 +177,33 @@ class OpportunityRegistry:
         endpoint = f"{self.base_url}/download-collection"
         data = {"id": str(collection_id)}
         res = self.make_request.post(endpoint, data)
+        return str(res).split('\n')
+
+    def ack_invites(self, invites: list[int]) -> None:
+        """Acknowledge a list of invites"""
+        endpoint = f"{self.base_url}/ack-invites"
+        res = self.make_request.post(endpoint, invites)
+        return res
+
+    def receive_invites(self, limit: int = 10) -> List[models.Invite]:
+        """Receive invites from opportunity registry"""
+        invites = self._receive_invites(limit=limit)
+        out = []
+        for inv in invites:
+            try:
+                out.append(models.Invite(**inv))
+            except pydantic.error_wrappers.ValidationError:
+                invite_id = inv['id']
+                logger.warning(
+                    f"Unable to parse {invite_id}, excluding...")
+                logger.warning(json.dumps(inv, indent=4))
+                # Ack invites so we don't see it again
+                self.ack_invites(invite_id)
+        return out
+
+    def download_invite_collection(self, invite_id: str) -> list:
+        """Download invite collection from opportunity registry"""
+        endpoints = f"{self.base_url}/download-invite-collection"
+        data = {"id": invite_id}
+        res = self.make_request.post(endpoints, data)
         return str(res).split('\n')
