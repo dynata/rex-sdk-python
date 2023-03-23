@@ -303,10 +303,14 @@ class RespondentGateway:
         }
         return self.make_request.post(endpoint, data)
 
-    def put_respondent(self, request: PutRespondentRequest) -> Union[dict, str]:
+    def put_respondent(self,
+                       request: PutRespondentRequest
+                       ) -> Union[dict, str]:
         endpoint = f"{self.base_url}/put-respondent"
         return self.make_request.post(endpoint, request.to_json())
 
-    def put_respondent_answers(self, request: PutRespondentAnswersRequest) -> Union[dict, str]:
+    def put_respondent_answers(self,
+                               request: PutRespondentAnswersRequest
+                               ) -> Union[dict, str]:
         endpoint = f"{self.base_url}/put-respondent-answers"
         return self.make_request.post(endpoint, request.to_json())
