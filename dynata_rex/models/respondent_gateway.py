@@ -136,3 +136,23 @@ class PutRespondentRequest:
 
     def to_json(self):
         return dict(self)
+
+
+class PutRespondentAnswersRequest:
+    def __init__(self, respondent_id: str, attributes: list[Attribute], principal_drn: Optional[ResourceName]):
+        self.respondent_id = respondent_id
+        self.attributes = attributes
+        self.principal_drn = principal_drn
+
+    def __iter__(self):
+        yield from {
+            "respondent_id": self.respondent_id,
+            "attributes": [attribute.to_json() for attribute in self.attributes],
+            "principal_drn": self.principal_drn
+        }.items()
+
+    def __str__(self):
+        return str(dict(self))
+
+    def to_json(self):
+        return dict(self)
