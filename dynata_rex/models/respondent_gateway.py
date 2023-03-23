@@ -7,6 +7,7 @@ Description: Implementation of dataclasses for Respondent Gateway
 """
 # Python Imports
 from enum import Enum
+from typing import Optional
 
 
 class GatewayGenderEnum(Enum):
@@ -47,3 +48,91 @@ class GatewayStatusEnum(Enum):
     QUALITY_ANSWER = GatewayDispositionsEnum.QUALITY, 1
     QUALITY_SPEEDING = GatewayDispositionsEnum.QUALITY, 2
     QUALITY_SUSPENDED = GatewayDispositionsEnum.QUALITY, 3
+
+
+class Attribute:
+
+    def __init__(self, attribute_id: int, answers: list[int]):
+        self.id = attribute_id
+        self.answers = answers
+
+    def __iter__(self):
+        yield from {
+            "id": self.id,
+            "answers": self.answers
+        }.items()
+
+    def __str__(self):
+        return str(dict(self))
+
+    def to_json(self):
+        return dict(self)
+
+
+class ResourceName:
+    def __init__(self, service: str, account: str, resource: str):
+        self.service = service
+        self.account = account
+        self.resource = resource
+
+    def __iter__(self):
+        yield from {
+            "service": self.service,
+            "account": self.account,
+            "resource": self.resource
+        }.items()
+
+    def __str__(self):
+        return str(dict(self))
+
+    def to_json(self):
+        return dict(self)
+
+
+class PutRespondentRequest:
+    def __init__(self, respondent_id: str,
+                 language: str,
+                 country: str,
+                 gender: Optional[str],
+                 birth_date: Optional[str],
+                 postal_code: Optional[str],
+                 attributes: Optional[list[Attribute]],
+                 principal_drn: Optional[ResourceName],
+                 first_name: Optional[str],
+                 last_name: Optional[str],
+                 street_address: Optional[str],
+                 email_address: Optional[str]):
+        self.respondent_id = respondent_id
+        self.language = language
+        self.country = country
+        self.gender = gender
+        self.birth_date = birth_date
+        self.postal_code = postal_code
+        self.attributes = attributes
+        self.principal_drn = principal_drn
+        self.first_name = first_name
+        self.last_name = last_name
+        self.street_address = street_address
+        self.email_address = email_address
+
+    def __iter__(self):
+        yield from {
+            "respondent_id": self.respondent_id,
+            "language": self.language,
+            "country": self.country,
+            "gender": self.gender,
+            "birth_date": self.birth_date,
+            "postal_code": self.postal_code,
+            "attributes": [attribute.to_json() for attribute in self.attributes],
+            "principal_drn": self.principal_drn.to_json(),
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "street_address": self.street_address,
+            "email_address": self.email_address
+        }.items()
+
+    def __str__(self):
+        return str(dict(self))
+
+    def to_json(self):
+        return dict(self)
