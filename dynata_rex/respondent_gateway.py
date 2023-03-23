@@ -13,7 +13,10 @@ from copy import copy
 # Third Party Imports
 
 # Local Imports
-from dynata_rex.models import GatewayDispositionsEnum, GatewayStatusEnum, PutRespondentRequest
+from dynata_rex.models import GatewayDispositionsEnum, \
+    GatewayStatusEnum, \
+    PutRespondentRequest, \
+    PutRespondentAnswersRequest
 from .signer import Signer, RexRequest
 from .exceptions import SignatureExpiredException, SignatureInvalidException
 
@@ -302,4 +305,8 @@ class RespondentGateway:
 
     def put_respondent(self, request: PutRespondentRequest) -> Union[dict, str]:
         endpoint = f"{self.base_url}/put-respondent"
+        return self.make_request.post(endpoint, request.to_json())
+
+    def put_respondent_answers(self, request: PutRespondentAnswersRequest) -> Union[dict, str]:
+        endpoint = f"{self.base_url}/put-respondent-answers"
         return self.make_request.post(endpoint, request.to_json())
