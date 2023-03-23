@@ -26,7 +26,8 @@ from .opportunity_registry import (
 from .respondent_gateway import (
     GatewayGenderEnum,
     GatewayDispositionsEnum,
-    GatewayStatusEnum
+    GatewayStatusEnum,
+    PutRespondentRequest
 )
 
 
@@ -51,5 +52,6 @@ __all__ = [
     'GatewayGenderEnum',
     'GatewayDispositionsEnum',
     'GatewayStatusEnum',
-    'Invite'
+    'Invite',
+    'PutRespondentRequest'
 ]
