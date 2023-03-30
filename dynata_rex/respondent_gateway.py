@@ -306,11 +306,23 @@ class RespondentGateway:
     def put_respondent(self,
                        request: PutRespondentRequest
                        ) -> Union[dict, str]:
+        """
+        Create a respondent from its models.
+
+        :param request: Respondent model
+        :type request: PutRespondentRequest
+        """
         endpoint = f"{self.base_url}/put-respondent"
         return self.make_request.post(endpoint, request.to_json())
 
     def put_respondent_answers(self,
                                request: PutRespondentAnswersRequest
                                ) -> Union[dict, str]:
+        """
+        Add answers to respondent.
+
+        :param request: Respondent answers model
+        :type request: PutRespondentAnswersRequest
+        """
         endpoint = f"{self.base_url}/put-respondent-answers"
         return self.make_request.post(endpoint, request.to_json())
