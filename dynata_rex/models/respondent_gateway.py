@@ -97,11 +97,7 @@ class PutRespondentRequest:
                  birth_date: Optional[str],
                  postal_code: Optional[str],
                  attributes: Optional[list[Attribute]],
-                 principal_drn: Optional[ResourceName],
-                 first_name: Optional[str],
-                 last_name: Optional[str],
-                 street_address: Optional[str],
-                 email_address: Optional[str]):
+                 principal_drn: Optional[ResourceName]):
         self.respondent_id = respondent_id
         self.language = language
         self.country = country
@@ -110,10 +106,6 @@ class PutRespondentRequest:
         self.postal_code = postal_code
         self.attributes = attributes
         self.principal_drn = principal_drn
-        self.first_name = first_name
-        self.last_name = last_name
-        self.street_address = street_address
-        self.email_address = email_address
 
     def __iter__(self):
         yield from {
@@ -127,10 +119,6 @@ class PutRespondentRequest:
                 attribute.to_json() for attribute in self.attributes
             ],
             "principal_drn": self.principal_drn.to_json(),
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "street_address": self.street_address,
-            "email_address": self.email_address
         }.items()
 
     def __str__(self):
