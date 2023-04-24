@@ -96,8 +96,7 @@ class PutRespondentRequest:
                  gender: Optional[str],
                  birth_date: Optional[str],
                  postal_code: Optional[str],
-                 attributes: Optional[list[Attribute]],
-                 principal_drn: Optional[ResourceName]):
+                 attributes: Optional[list[Attribute]]):
         self.respondent_id = respondent_id
         self.language = language
         self.country = country
@@ -105,7 +104,6 @@ class PutRespondentRequest:
         self.birth_date = birth_date
         self.postal_code = postal_code
         self.attributes = attributes
-        self.principal_drn = principal_drn
 
     def __iter__(self):
         yield from {
@@ -118,7 +116,6 @@ class PutRespondentRequest:
             "attributes": [
                 attribute.to_json() for attribute in self.attributes
             ],
-            "principal_drn": self.principal_drn.to_json(),
         }.items()
 
     def __str__(self):
@@ -131,19 +128,16 @@ class PutRespondentRequest:
 class PutRespondentAnswersRequest:
     def __init__(self,
                  respondent_id: str,
-                 attributes: list[Attribute],
-                 principal_drn: Optional[ResourceName]):
+                 attributes: list[Attribute]):
         self.respondent_id = respondent_id
         self.attributes = attributes
-        self.principal_drn = principal_drn
 
     def __iter__(self):
         yield from {
             "respondent_id": self.respondent_id,
             "attributes": [
                 attribute.to_json() for attribute in self.attributes
-            ],
-            "principal_drn": self.principal_drn
+            ]
         }.items()
 
     def __str__(self):
