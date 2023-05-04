@@ -69,26 +69,6 @@ class Attribute:
         return dict(self)
 
 
-class ResourceName:
-    def __init__(self, service: str, account: str, resource: str):
-        self.service = service
-        self.account = account
-        self.resource = resource
-
-    def __iter__(self):
-        yield from {
-            "service": self.service,
-            "account": self.account,
-            "resource": self.resource
-        }.items()
-
-    def __str__(self):
-        return str(dict(self))
-
-    def to_json(self):
-        return dict(self)
-
-
 class PutRespondentRequest:
     def __init__(self, respondent_id: str,
                  language: str,
