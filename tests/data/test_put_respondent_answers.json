@@ -1,0 +1,9 @@
+{
+  "respondent_id": "123456789",
+  "attributes": [
+    {
+      "id": 12,
+      "answers": [4, 5, 3, 2]
+    }
+  ]
+}
