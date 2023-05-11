@@ -21,11 +21,17 @@ from dynata_rex.models.respondent_gateway import Attribute
 # Dynata Imports
 from dynata_rex.respondent_gateway import RespondentGateway
 from dynata_rex.signer import Signer, RexRequest
-from dynata_rex.models import GatewayDispositionsEnum, GatewayStatusEnum, PutRespondentAnswersRequest
-from dynata_rex.exceptions import \
-    SignatureExpiredException, SignatureInvalidException
+from dynata_rex.models import (GatewayDispositionsEnum,
+                               GatewayStatusEnum,
+                               PutRespondentAnswersRequest)
+from dynata_rex.exceptions import (SignatureExpiredException,
+                                   SignatureInvalidException)
 # Local Imports
-from .shared import ACCESS_KEY, SECRET_KEY, TEST_DATE_STR, ResponseMock, TEST_DATA
+from .shared import (ACCESS_KEY,
+                     SECRET_KEY,
+                     TEST_DATE_STR,
+                     ResponseMock,
+                     TEST_DATA)
 
 GATEWAY = RespondentGateway(
     ACCESS_KEY,
@@ -579,5 +585,10 @@ def test_put_respondent_answers(fun):
         content_type="text/plain"
     )
 
-    context = GATEWAY.put_respondent_answers(PutRespondentAnswersRequest("123456789", [Attribute(12, [4, 5, 3, 2])]))
+    context = GATEWAY.put_respondent_answers(
+        PutRespondentAnswersRequest(
+            "123456789",
+            [Attribute(12, [4, 5, 3, 2])]
+        )
+    )
     assert context == expected
