@@ -28,7 +28,8 @@ from .respondent_gateway import (
     GatewayDispositionsEnum,
     GatewayStatusEnum,
     PutRespondentRequest,
-    PutRespondentAnswersRequest
+    PutRespondentAnswersRequest,
+    Attribute
 )
 
 
@@ -55,5 +56,6 @@ __all__ = [
     'GatewayStatusEnum',
     'Invite',
     'PutRespondentRequest',
-    "PutRespondentAnswersRequest"
+    "PutRespondentAnswersRequest",
+    "Attribute"
 ]
