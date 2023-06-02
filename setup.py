@@ -25,11 +25,11 @@ setuptools.setup(
         # pip install -e ".[testing]"
         "testing": ['pytest'],
         ':python_version == "3.6"': [
-            "typing-extensions==4.6.2",
+            "typing-extensions==4.6.3",
             'dataclasses==0.8'
         ],
         ':python_version == "3.7"': [
-            "typing-extensions==4.6.2"
+            "typing-extensions==4.6.3"
         ]
     },
     tests_require=['pytest'],
