@@ -17,7 +17,7 @@ from dynata_rex import OpportunityRegistry
 registry = OpportunityRegistry('rex_access_key', 'rex_secret_key')
 ```
 
-### List opportunity notifications from the registry
+#### List opportunity notifications from the registry
 
 ```py
 opportunities = registry.receive_notifications()
@@ -26,23 +26,23 @@ opportunities = registry.receive_notifications()
 # [Opportunity(id=1,...), Opportunity(id=2,...), Opportunity(id=1,...)]
 ```
 
-### Convert an opportunity to JSON
+#### Convert an opportunity to JSON
 
 ```py
 opportunity_json = Opportunity.json()
 ```
 
-### Acknowledge a list of notifications from the registry
+#### Acknowledge a list of notifications from the registry
 
 ```py
 registry.ack_notifications([opportunity_1.id, ..., opportunity_N.id])
 ```
-### Acknowledge a single notification from the registry
+#### Acknowledge a single notification from the registry
 ```
 registry.ack_notification(opportunity.id)
 ```
 
-### Get a list of corresponding opportunities from a project_id
+#### Get a list of corresponding opportunities from a project_id
 
 ```py
 corresponding = registry.list_project_opportunities(opportunity.project_id)
@@ -50,7 +50,7 @@ corresponding = registry.list_project_opportunities(opportunity.project_id)
 # [12345, 45678, 78901]
 ```
 
-### Download a collection from a collection-type targeting cell
+#### Download a collection from a collection-type targeting cell
 
 ```py
 data = registry.download_collection(cell.collection_id)
@@ -60,14 +60,14 @@ data = registry.download_collection(cell.collection_id)
 
 ### _**Respondent Gateway**_
 
-### Instantiate a RespondentGateway Client
+#### Instantiate a RespondentGateway Client
 
 ```py
 from dynata_rex import RespondentGateway
 gateway = RespondentGateway('rex_access_key', 'rex_secret_key')
 ```
 
-### Create a survey link for your respondent
+#### Create a survey link for your respondent
 
 ```py
 url = 'https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en'
@@ -82,7 +82,7 @@ signed_link = gateway.create_respondent_url(url,
 # https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en&birth_date=1990-01-01&gender=male&postal_code=90210&respondent_id=very-unique-respondent-id&access_key=rex_access_key&expiration=2021-11-29T15:35:12.993Z&signature=4353e8c4ca8f8fb75530214ac78139b55ca3f090438c639476b8584afe1396e6
 ```
 
-### Add additional query parameters to a link that will be present on return from survey
+#### Add additional query parameters to a link that will be present on return from survey
 
 ```py
 url = 'https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en'
@@ -103,7 +103,7 @@ signed_link = gateway.create_respondent_url(url,
 # https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en&custom_parameter=custom_value&another_custom_parameter=another_custom_value&birth_date=1990-01-01&gender=male&postal_code=90210&respondent_id=very-unique-respondent-id&access_key=rex_access_key&expiration=2021-12-02T13:48:55.759Z&signature=cf443326b73fb8af14c590e18d79a970fc3f73327c2d140c324ee1ce3020d064
 ```
 
-### Sign an inbound /start link with your credentials
+#### Sign an inbound /start link with your credentials
 
 ```py
 url = 'https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en'
@@ -112,7 +112,7 @@ signed_url = gateway.sign_url(url)
 # "https://respondent.fake.rex.dynata.com/start?ctx=XXXX&language=en&access_key=rex_access_key&expiration=2021-11-24T16:12:06.070Z&signature=fa8b5cac82d34bcf8026904b353349db5b1b871f735e07a601389cb6da2d744d"
 ```
 
-### Generate a URL-quoted signed url
+#### Generate a URL-quoted signed url
 
 ```py
 signed_url = gateway.sign_url(url, url_quoting=True)
@@ -209,7 +209,7 @@ gateway.create_context(context_id, data)
 ##### Retrieve a context
 
 ```py
-gw.get_context('super-unique-ctx-id')
+gateway.get_context('super-unique-ctx-id')
 
 # {
 #    'id': 'super-unique-ctx-id',
@@ -225,7 +225,7 @@ gw.get_context('super-unique-ctx-id')
 ##### Expire a context
 
 ```py
-gw.expire_context('super-unique-ctx-id')
+gateway.expire_context('super-unique-ctx-id')
 
 # {
 #    'id': 'super-unique-ctx-id',
@@ -242,7 +242,7 @@ gw.expire_context('super-unique-ctx-id')
 ##### List Attributes
 
 ```py
-gw.list_attributes('country', 'page_number', 'page_size')
+gateway.list_attributes('country', 'page_number', 'page_size')
 
 # {
 #    'data':
@@ -258,7 +258,7 @@ gw.list_attributes('country', 'page_number', 'page_size')
 ##### Get Attribute Info
 
 ```py
-gw.get_attribute_info('attribute-id')
+gateway.get_attribute_info('attribute-id')
 
 # {
 #   'id': 402,
@@ -308,4 +308,35 @@ gw.get_attribute_info('attribute-id')
 #       }
 #   ]
 # }
+```
+
+#### put respondent
+
+```python
+from dynata_rex.models import PutRespondentRequest, Attribute
+
+respondent = PutRespondentRequest(
+    respondent_id="respondent_id",
+    gender="gender", # str | None
+    country="country",
+    language="language",
+    birth_date="birth_date", # str | None
+    attributes= [Attribute(attribute_id=111, answers=[111, 222, 333])],
+    postal_code="postal_code" # str | None
+)
+
+gateway.put_respondent(respondent)
+```
+
+#### put respondent answers
+
+```python
+from dynata_rex.models import PutRespondentAnswersRequest, Attribute
+
+respondent_answers = PutRespondentAnswersRequest(
+    respondent_id="respondent_id",
+    attributes= [Attribute(attribute_id=111, answers=[111, 222, 333])]
+)
+
+gateway.put_respondent_answers(respondent_answers)
 ```
