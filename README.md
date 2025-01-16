@@ -1,4 +1,4 @@
-# rex-sdk-python
+# rex-sdk-python - [DEPRECATED] - This repository is no longer supported
 
 Package for building and interacting with the Dynata Respondent Exchange (REX)
 
